@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=rental
+      - POSTGRES_USER=rental
+      - POSTGRES_PASSWORD=root
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=rental@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
