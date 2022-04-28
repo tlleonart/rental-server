@@ -7,54 +7,61 @@ class HotelService {
   constructor() {}
 
   async findApi() {
-    const apiHotels = [];
-    const getHotels = async () => {
-      try {
-        const apiReq = await axios.get(url, { headers: { 'Api-key': apiKey, 'X-Signature': signature } });
-        apiHotels.push(apiReq.data.hotels);
-        apiHotels[0].map((hotel) => {
-          const obj = {
-            id: hotel.code,
-            name: hotel.name.content,
-            description: hotel.description.content,
-            stars: hotel.S2C,
-            ranking: hotel.ranking,
-            countryCode: hotel.countryCode,
-            latitude: hotel.coordinates.latitude,
-            longitude: hotel.coordinates.longitude,
-            address: hotel.address.content,
-            city: hotel.city.content,
-            postalCode: hotel.postalCode,
-            email: hotel.email,
-            phones: hotel.phones[0].phoneNumber,
-            childrens: hotel.rooms[0].maxChildren,
-            maxPax: hotel.rooms[0].maxPax,
-            gallery: hotel.images[0],
-            amenities: hotel.facilities[0],
-          };
-          return obj;
-        });
-        return apiHotels;
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    // const apiHotels = [];
 
-    getHotels();
+    // const apiReq = await axios.get(url, { headers: { 'Api-key': apiKey, 'X-Signature': signature } });
+    // apiHotels.push(apiReq.data.hotels);
+    // apiHotels[0].map((hotel) => ({
+    //   name: hotel.name.content,
+    //   description: hotel.description.content,
+    //   stars: hotel.S2C,
+    //   ranking: hotel.ranking,
+    //   countryCode: hotel.countryCode,
+    //   latitude: hotel.coordinates.latitude,
+    //   longitude: hotel.coordinates.longitude,
+    //   address: hotel.address.content,
+    //   city: hotel.city.content,
+    //   postalCode: hotel.postalCode,
+    //   email: hotel.email,
+    //   phones: hotel.phones[0].phoneNumber,
+    //   childrens: hotel.rooms[0].maxChildren,
+    //   maxPax: hotel.rooms[0].maxPax,
+    //   gallery: hotel.images[0],
+    //   amenities: hotel.facilities[0],
+    // }));
+    // //   // return obj;
+    // // );
+    // return apiHotels;
+    const hotelReq = await axios.get(url, { headers: { 'Api-key': apiKey, 'X-Signature': signature } });
+    const hotelsApi = await hotelReq.data.hotels.map((hotel) => {
+      const hotelObj = {
+        name: hotel.name.content,
+        description: hotel.description.content,
+        stars: hotel.S2C,
+        ranking: hotel.ranking,
+        countryCode: hotel.countryCode,
+        latitude: hotel.coordinates.latitude,
+        longitude: hotel.coordinates.longitude,
+        address: hotel.address.content,
+        city: hotel.city.content,
+        postalCode: hotel.postalCode,
+        email: hotel.email,
+        phones: hotel.phones[0].phoneNumber,
+        childrens: hotel.rooms[0].maxChildren,
+        maxPax: hotel.rooms[0].maxPax,
+      };
+      return hotelObj;
+    });
+    return hotelsApi;
   }
 
   async dbLoad() {
     const apiHotels = await this.findApi();
-    apiHotels.forEach((h) => {
-      models.Hotel.findOrCreate({ where: { name: h.name } });
-    });
-
-    const dbHotels = models.Hotel.findAll();
-
-    return dbHotels;
+    apiHotels.map((h) => models.Hotel.findOrCreate({ where: { ...h } }));
   }
 
   async find() {
+    await this.dbLoad();
     const hotels = await models.Hotel.findAll();
 
     return hotels;
@@ -80,6 +87,14 @@ class HotelService {
     const updatedHotel = await hotel.update(body);
 
     return updatedHotel;
+  }
+
+  async delete(id, body) {
+    const hotelDeleted = await this.findOne(id);
+
+    await hotelDeleted.update(body);
+
+    return `${id} deleted`;
   }
 }
 

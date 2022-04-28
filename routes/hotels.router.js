@@ -8,7 +8,7 @@ const service = new HotelService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const hotels = await service.findApi();
+    const hotels = await service.find();
 
     res.json(hotels);
   } catch (error) {
@@ -49,6 +49,18 @@ router.patch('/:id', async (req, res, next) => {
     const updatedHotel = await service.update(id, body);
 
     res.json(updatedHotel);
+  } catch (error) {
+    next(error);
+  }
+});
+router.patch('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+
+    const hotel = await service.delete(id, body);
+
+    res.json(hotel);
   } catch (error) {
     next(error);
   }
