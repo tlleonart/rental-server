@@ -55,7 +55,7 @@ class User extends Model {
   static associate(models) {
     this.belongsToMany(models.Hotel, {
       as: 'hotels',
-      throw: models.UserHotel,
+      through: models.UserHotel,
       foreignKey: 'userId',
       otherKey: 'hotelId',
     });
