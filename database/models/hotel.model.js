@@ -19,11 +19,11 @@ const HotelSchema = {
   },
   stars: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   ranking: {
     allowNull: false,
-    type: DataTypes.DECIMAL,
+    type: DataTypes.INTEGER,
   },
   countryCode: {
     allowNull: false,
@@ -31,11 +31,11 @@ const HotelSchema = {
   },
   latitude: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   longitude: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   address: {
     allowNull: false,
@@ -47,7 +47,7 @@ const HotelSchema = {
   },
   postalCode: {
     allowNull: false,
-    type: DataTypes.DECIMAL,
+    type: DataTypes.STRING,
   },
   email: {
     allowNull: false,
@@ -59,15 +59,11 @@ const HotelSchema = {
   },
   children: {
     allowNull: false,
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.INTEGER,
   },
   maxPax: {
     allowNull: false,
-    type: DataTypes.DECIMAL,
-  },
-  gallery: {
-    allowNull: false,
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.INTEGER,
   },
   createdAt: {
     allowNull: false,
