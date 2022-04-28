@@ -7,31 +7,6 @@ class HotelService {
   constructor() {}
 
   async findApi() {
-    // const apiHotels = [];
-
-    // const apiReq = await axios.get(url, { headers: { 'Api-key': apiKey, 'X-Signature': signature } });
-    // apiHotels.push(apiReq.data.hotels);
-    // apiHotels[0].map((hotel) => ({
-    //   name: hotel.name.content,
-    //   description: hotel.description.content,
-    //   stars: hotel.S2C,
-    //   ranking: hotel.ranking,
-    //   countryCode: hotel.countryCode,
-    //   latitude: hotel.coordinates.latitude,
-    //   longitude: hotel.coordinates.longitude,
-    //   address: hotel.address.content,
-    //   city: hotel.city.content,
-    //   postalCode: hotel.postalCode,
-    //   email: hotel.email,
-    //   phones: hotel.phones[0].phoneNumber,
-    //   childrens: hotel.rooms[0].maxChildren,
-    //   maxPax: hotel.rooms[0].maxPax,
-    //   gallery: hotel.images[0],
-    //   amenities: hotel.facilities[0],
-    // }));
-    // //   // return obj;
-    // // );
-    // return apiHotels;
     const hotelReq = await axios.get(url, { headers: { 'Api-key': apiKey, 'X-Signature': signature } });
     const hotelsApi = await hotelReq.data.hotels.map((hotel) => {
       const hotelObj = {
@@ -57,7 +32,24 @@ class HotelService {
 
   async dbLoad() {
     const apiHotels = await this.findApi();
-    apiHotels.map((h) => models.Hotel.findOrCreate({ where: { ...h } }));
+    apiHotels.map((h) => models.Hotel.findOrCreate({
+      where: {
+        name: h.name.content,
+        description: h.description.content,
+        stars: h.S2C,
+        ranking: h.ranking,
+        countryCode: h.countryCode,
+        latitude: h.coordinates.latitude,
+        longitude: h.coordinates.longitude,
+        address: h.address.content,
+        city: h.city.content,
+        postalCode: h.postalCode,
+        email: h.email,
+        phones: h.phones[0].phoneNumber,
+        childrens: h.rooms[0].maxChildren,
+        maxPax: h.rooms[0].maxPax,
+      },
+    }));
   }
 
   async find() {
