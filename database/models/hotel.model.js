@@ -20,6 +20,7 @@ const HotelSchema = {
   stars: {
     allowNull: false,
     type: DataTypes.STRING,
+    defaultValue: '3*',
   },
   ranking: {
     allowNull: false,
@@ -52,6 +53,7 @@ const HotelSchema = {
   email: {
     allowNull: false,
     type: DataTypes.STRING,
+    defaultValue: "We don't have an email",
   },
   phones: {
     allowNull: false,
@@ -64,6 +66,10 @@ const HotelSchema = {
   maxPax: {
     allowNull: false,
     type: DataTypes.INTEGER,
+  },
+  gallery: {
+    allowNull: false,
+    type: DataTypes.ARRAY(DataTypes.JSON),
   },
   createdAt: {
     allowNull: false,
