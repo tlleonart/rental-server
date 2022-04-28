@@ -22,8 +22,12 @@ class HotelService {
         postalCode: hotel.postalCode,
         email: hotel.email,
         phones: hotel.phones[0].phoneNumber,
-        childrens: hotel.rooms[0].maxChildren,
+        children: hotel.rooms[0].maxChildren,
         maxPax: hotel.rooms[0].maxPax,
+        gallery: hotel.images.filter((img) => img.imageTypeCode === 'GEN' || img.imageTypeCode === 'PIS').map((i) => ({
+          imageTypeCode: i.imageTypeCode,
+          path: `http://photos.hotelbeds.com/giata/original/${i.path}`,
+        })),
       };
       return hotelObj;
     });
@@ -32,24 +36,7 @@ class HotelService {
 
   async dbLoad() {
     const apiHotels = await this.findApi();
-    apiHotels.map((h) => models.Hotel.findOrCreate({
-      where: {
-        name: h.name.content,
-        description: h.description.content,
-        stars: h.S2C,
-        ranking: h.ranking,
-        countryCode: h.countryCode,
-        latitude: h.coordinates.latitude,
-        longitude: h.coordinates.longitude,
-        address: h.address.content,
-        city: h.city.content,
-        postalCode: h.postalCode,
-        email: h.email,
-        phones: h.phones[0].phoneNumber,
-        childrens: h.rooms[0].maxChildren,
-        maxPax: h.rooms[0].maxPax,
-      },
-    }));
+    apiHotels.map((h) => models.Hotel.create(h));
   }
 
   async find() {
