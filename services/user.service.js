@@ -15,6 +15,15 @@ class UserService {
     return users;
   }
 
+
+  async delete(id, body) {
+    const user = await this.findOne(id);
+
+    await user.update(body);
+
+    return `${id} deleted`;
+     }
+
   async findOne(id) {
     const user = await models.User.findByPk(id);
 
@@ -41,7 +50,8 @@ class UserService {
     const updatedUser = await user.update(body);
 
     return updatedUser;
-  }
+
+ 
 }
 
 module.exports = UserService;

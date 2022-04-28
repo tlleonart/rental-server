@@ -16,6 +16,20 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+
+router.patch('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    const user = await service.delete(id, body);
+    
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+    
+
 router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -27,6 +41,7 @@ router.get("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
 
 router.post("/", async (req, res, next) => {
   try {
@@ -53,5 +68,6 @@ router.patch("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
 
 module.exports = router;
