@@ -15,10 +15,51 @@ const UserSchema = {
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
   },
+  name: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  lastName: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  userName: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  email: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  birthDate: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  isBanned: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  password: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  isDeleted: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 };
 
 class User extends Model {
-  static associate() {}
+  static associate(models) {
+    this.belongsToMany(models.Hotel, {
+      as: 'hotels',
+      throw: models.UserHotel,
+      foreignKey: 'userId',
+      otherKey: 'hotelId',
+    });
+  }
 
   static config(sequelize) {
     return {

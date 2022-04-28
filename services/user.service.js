@@ -8,6 +8,14 @@ class UserService {
 
     return users;
   }
+
+  async delete(id, body) {
+    const user = await this.findOne(id);
+
+    await user.update(body);
+
+    return `${id} deleted`;
+  }
 }
 
 module.exports = UserService;
