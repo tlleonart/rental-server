@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 
-const UserService = require("../services/user.service");
+const UserService = require('../services/user.service');
 
 const router = express.Router();
 
 const service = new UserService();
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const users = await service.find();
 
@@ -16,21 +16,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-
-router.patch('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { body } = req;
-    const user = await service.delete(id, body);
-    
-    res.json(user);
-  } catch (error) {
-    next(error);
-  }
-});
-    
-
-router.get("/:id", async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -42,8 +28,20 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.patch('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
 
-router.post("/", async (req, res, next) => {
+    const user = await service.delete(id, body);
+
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/', async (req, res, next) => {
   try {
     const { body } = req;
 
@@ -55,10 +53,9 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-
     const { body } = req;
 
     const updatedUser = await service.update(id, body);
@@ -68,6 +65,5 @@ router.patch("/:id", async (req, res, next) => {
     next(error);
   }
 });
-
 
 module.exports = router;

@@ -1,6 +1,5 @@
-const { models } = require("../libs/sequelize");
-
-const boom = require("@hapi/boom");
+const boom = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
 
 class UserService {
   constructor() {}
@@ -9,12 +8,11 @@ class UserService {
     const users = await models.User.findAll();
 
     if (!users) {
-      throw boom.notFound("Users Not Found");
+      throw boom.notFound('Users Not Found');
     }
 
     return users;
   }
-
 
   async delete(id, body) {
     const user = await this.findOne(id);
@@ -22,13 +20,13 @@ class UserService {
     await user.update(body);
 
     return `${id} deleted`;
-     }
+  }
 
   async findOne(id) {
     const user = await models.User.findByPk(id);
 
     if (!user) {
-      throw boom.notFound("User Not Found");
+      throw boom.notFound('User Not Found');
     }
 
     return user;
@@ -44,14 +42,13 @@ class UserService {
     const user = await this.findOne(id);
 
     if (!user) {
-      throw boom.notFound("User Not Found");
+      throw boom.notFound('User Not Found');
     }
 
     const updatedUser = await user.update(body);
 
     return updatedUser;
-
- 
+  }
 }
 
 module.exports = UserService;

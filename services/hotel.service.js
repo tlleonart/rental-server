@@ -2,9 +2,9 @@ class HotelService {
   constructor() {}
 
   async delete(id, body) {
-    const hotel = await this.findOne(id);
+    const hotelDeleted = await this.findOne(id);
 
-    await hotel.update(body);
+    await hotelDeleted.update(body);
 
     return `${id} deleted`;
   }
