@@ -55,6 +55,7 @@ class HotelService {
     if (!hotel) {
       throw boom.notFound('Hotel Not Found');
     }
+    return hotel;
   }
 
   async create(body) {
