@@ -17,9 +17,9 @@ class UserService {
   async delete(id, body) {
     const user = await this.findOne(id);
 
-    await user.update(body);
+    const userDeleted = await user.update(body);
 
-    return `${id} deleted`;
+    return userDeleted;
   }
 
   async findOne(id) {

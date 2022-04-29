@@ -71,12 +71,12 @@ router.patch(
   },
 );
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/delete/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const { body } = req;
 
-    const hotel = await service.delete(id, body);
+    const hotel = await service.delete(id, { isDeleted: body.isDeleted });
 
     res.json(hotel);
   } catch (error) {
