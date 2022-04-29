@@ -40,8 +40,11 @@ class HotelService {
   }
 
   async find() {
-    await this.dbLoad();
     const hotels = await models.Hotel.findAll();
+
+    if (hotels.length === 0) {
+      await this.dbLoad();
+    }
 
     return hotels;
   }
