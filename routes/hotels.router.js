@@ -1,22 +1,32 @@
-const express = require('express');
+const express = require("express");
 
-const HotelService = require('../services/hotel.service');
+const HotelService = require("../services/hotel.service");
 
 const router = express.Router();
 
 const service = new HotelService();
 
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const hotels = await service.find();
 
-    res.json(hotels);
+    return res.json(hotels);
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get("/order", async (req, res, next) => {
+  try {
+    const { query } = req;
+    const orderedHotels = await service.filter(query);
+    return res.json(orderedHotels);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -28,7 +38,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const { body } = req;
 
@@ -40,7 +50,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.patch('/:id', async (req, res, next) => {
+router.patch("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -53,7 +63,7 @@ router.patch('/:id', async (req, res, next) => {
     next(error);
   }
 });
-router.patch('/:id', async (req, res, next) => {
+router.patch("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const { body } = req;

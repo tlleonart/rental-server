@@ -1,22 +1,12 @@
 const boom = require("@hapi/boom");
 const { models } = require("../libs/sequelize");
-const { randomUsers } = require("./utils");
 
 class UserService {
   constructor() {}
 
-  async dbLoad() {
-    const users = randomUsers(10);
-    console.log("users db:", users);
-    users.map((u) => models.User.create(u));
-  }
-
   async find() {
     const users = await models.User.findAll();
 
-    if (users.length === 0) {
-      await this.dbLoad();
-    }
     if (!users) {
       throw boom.notFound("Users Not Found");
     }
