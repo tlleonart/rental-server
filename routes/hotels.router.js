@@ -1,5 +1,13 @@
 const express = require("express");
 
+const validatorHandler = require("../middlewares/validator.handler");
+
+const {
+  getHotelSchema,
+  createHotelSchema,
+  updateHotelSchema,
+} = require("../schemas/hotels.schema");
+
 const HotelService = require("../services/hotel.service");
 
 const router = express.Router();
@@ -26,54 +34,55 @@ router.get("/order", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
+router.get(
+  "/:id",
+  validatorHandler(getHotelSchema, "params"),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
-    const hotel = await service.findOne(id);
+      const hotel = await service.findOne(id);
 
-    res.json(hotel);
-  } catch (error) {
-    next(error);
+      res.json(hotel);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.post("/", async (req, res, next) => {
-  try {
-    const { body } = req;
+router.post(
+  "/",
+  validatorHandler(createHotelSchema, "body"),
+  async (req, res, next) => {
+    try {
+      const { body } = req;
 
-    const newHotel = await service.create(body);
+      const newHotel = await service.create(body);
 
-    res.json(newHotel);
-  } catch (error) {
-    next(error);
+      res.json(newHotel);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.patch("/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
+router.patch(
+  "/:id",
+  validatorHandler(getHotelSchema, "params"),
+  validatorHandler(updateHotelSchema, "body"),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
-    const { body } = req;
+      const { body } = req;
 
-    const updatedHotel = await service.update(id, body);
+      const updatedHotel = await service.update(id, body);
 
-    res.json(updatedHotel);
-  } catch (error) {
-    next(error);
+      res.json(updatedHotel);
+    } catch (error) {
+      next(error);
+    }
   }
-});
-router.patch("/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { body } = req;
-
-    const hotel = await service.delete(id, body);
-
-    res.json(hotel);
-  } catch (error) {
-    next(error);
-  }
-});
+);
 
 module.exports = router;
