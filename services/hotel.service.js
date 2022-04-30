@@ -58,11 +58,14 @@ class HotelService {
     return hotels;
   }
 
-  async filter({ prop, value }) {
-    const hotels = await models.Hotel.findAll({
+  async filter(hotels, { prop, value }) {
+    if (hotels.length === 0) {
+      await this.dbLoad();
+    }
+    const filteredHotels = await models.Hotel.findAll({
       order: [[prop, value]],
     });
-    return hotels.slice(0, 10);
+    return filteredHotels.slice(0, 10);
   }
 
   async findById(id) {
