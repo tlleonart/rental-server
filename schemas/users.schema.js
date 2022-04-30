@@ -7,8 +7,8 @@ const userName = Joi.string();
 const email = Joi.string();
 const birthDate = Joi.string();
 const password = Joi.string();
-// const repeatPassword = Joi.string();
-// const profilePic = Joi.string();
+const repeatPassword = Joi.string().valid(Joi.ref('password'));
+const profilePic = Joi.string();
 
 const getUserSchema = Joi.object({
   id: id.required(),
@@ -21,8 +21,8 @@ const createUserSchema = Joi.object({
   email: email.required(),
   birthDate: birthDate.required(),
   password: password.required(),
-  // repeatPassword: repeatPassword.required(),
-  // profilePic,
+  repeatPassword: repeatPassword.required(),
+  profilePic,
 });
 
 const updateUserSchema = Joi.object({
@@ -32,8 +32,8 @@ const updateUserSchema = Joi.object({
   email,
   birthDate,
   password,
-  // repeatPassword,
-  // profilePic,
+  repeatPassword,
+  profilePic,
 });
 
 module.exports = { getUserSchema, updateUserSchema, createUserSchema };
