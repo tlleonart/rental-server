@@ -9,7 +9,7 @@ class HotelService {
 
   async findApi() {
     const hotelReq = await axios.get(url, {
-      headers: { "Api-key": apiKey, "X-Signature": signature },
+      headers: { 'Api-key': apiKey, 'X-Signature': signature },
     });
     const hotelsApi = await hotelReq.data.hotels.map((hotel) => {
       const hotelObj = {
@@ -30,7 +30,7 @@ class HotelService {
         maxPax: hotel.rooms[0].maxPax,
         gallery: hotel.images
           .filter(
-            (img) => img.imageTypeCode === "GEN" || img.imageTypeCode === "PIS"
+            (img) => img.imageTypeCode === 'GEN' || img.imageTypeCode === 'PIS',
           )
           .map((i) => ({
             imageTypeCode: i.imageTypeCode,
@@ -69,7 +69,7 @@ class HotelService {
     const hotel = await models.Hotel.findByPk(id);
 
     if (!hotel) {
-      throw boom.notFound("Hotel Not Found");
+      throw boom.notFound('Hotel Not Found');
     }
 
     return hotel;
@@ -79,7 +79,8 @@ class HotelService {
     const hotelByName = await models.Hotel.findAll({
       where: {
         [Op.or]: [
-          { name: { [Op.iLike]: name } }, { name: { [Op.substring]: name } },
+          { name: { [Op.iLike]: name } },
+          { name: { [Op.substring]: name } },
         ],
       },
     });

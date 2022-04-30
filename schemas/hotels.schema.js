@@ -20,9 +20,9 @@ const maxPax = Joi.number();
 const imageTypeCode = Joi.string();
 const path = Joi.string();
 
-const gallery = Joi.array(Joi.object({
-  imageTypeCode: imageTypeCode.Joi.required(),
-  path: path.Joi.required(),
+const gallery = Joi.array().items(Joi.object({
+  imageTypeCode: imageTypeCode.required(),
+  path: path.required(),
 }));
 
 const getHotelSchema = Joi.object({

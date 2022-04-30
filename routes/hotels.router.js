@@ -1,14 +1,14 @@
-const express = require("express");
+const express = require('express');
 
-const validatorHandler = require("../middlewares/validator.handler");
+const validatorHandler = require('../middlewares/validator.handler');
 
 const {
   getHotelSchema,
   createHotelSchema,
   updateHotelSchema,
-} = require("../schemas/hotels.schema");
+} = require('../schemas/hotels.schema');
 
-const HotelService = require("../services/hotel.service");
+const HotelService = require('../services/hotel.service');
 
 const router = express.Router();
 
@@ -33,9 +33,10 @@ router.get('/', async (req, res, next) => {
     } catch (error) {
       next(error);
     }
+  }
 });
 
-router.get("/order", async (req, res, next) => {
+router.get('/order', async (req, res, next) => {
   try {
     const { query } = req;
     const orderedHotels = await service.filter(query);
@@ -46,8 +47,8 @@ router.get("/order", async (req, res, next) => {
 });
 
 router.get(
-  "/:id",
-  validatorHandler(getHotelSchema, "params"),
+  '/:id',
+  validatorHandler(getHotelSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -58,12 +59,12 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 router.post(
-  "/",
-  validatorHandler(createHotelSchema, "body"),
+  '/',
+  validatorHandler(createHotelSchema, 'body'),
   async (req, res, next) => {
     try {
       const { body } = req;
@@ -74,13 +75,13 @@ router.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 router.patch(
-  "/:id",
-  validatorHandler(getHotelSchema, "params"),
-  validatorHandler(updateHotelSchema, "body"),
+  '/:id',
+  validatorHandler(getHotelSchema, 'params'),
+  validatorHandler(updateHotelSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -93,7 +94,7 @@ router.patch(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 module.exports = router;
