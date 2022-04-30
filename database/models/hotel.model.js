@@ -89,7 +89,20 @@ const HotelSchema = {
 };
 
 class Hotel extends Model {
-  static associate() {}
+  static associate(models) {
+    this.belongsToMany(models.User, {
+      as: 'users',
+      through: models.UserHotel,
+      foreignKey: 'hotelId',
+      otherKey: 'userId',
+    });
+    this.belongsToMany(models.Review, {
+      as: 'reviews',
+      through: models.HotelReview,
+      foreignKey: 'hotelId',
+      otherKey: 'reviewId',
+    });
+  }
 
   static config(sequelize) {
     return {
