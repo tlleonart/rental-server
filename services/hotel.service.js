@@ -8,7 +8,9 @@ class HotelService {
   constructor() {}
 
   async findApi() {
-    const hotelReq = await axios.get(url, { headers: { 'Api-key': apiKey, 'X-Signature': signature } });
+    const hotelReq = await axios.get(url, {
+      headers: { "Api-key": apiKey, "X-Signature": signature },
+    });
     const hotelsApi = await hotelReq.data.hotels.map((hotel) => {
       const hotelObj = {
         name: hotel.name.content,
@@ -26,10 +28,14 @@ class HotelService {
         phones: hotel.phones[0].phoneNumber,
         children: hotel.rooms[0].maxChildren,
         maxPax: hotel.rooms[0].maxPax,
-        gallery: hotel.images.filter((img) => img.imageTypeCode === 'GEN' || img.imageTypeCode === 'PIS').map((i) => ({
-          imageTypeCode: i.imageTypeCode,
-          path: `http://photos.hotelbeds.com/giata/original/${i.path}`,
-        })),
+        gallery: hotel.images
+          .filter(
+            (img) => img.imageTypeCode === "GEN" || img.imageTypeCode === "PIS"
+          )
+          .map((i) => ({
+            imageTypeCode: i.imageTypeCode,
+            path: `http://photos.hotelbeds.com/giata/original/${i.path}`,
+          })),
       };
       return hotelObj;
     });
@@ -52,11 +58,18 @@ class HotelService {
     return hotels;
   }
 
+  async filter({ prop, value }) {
+    const hotels = await models.Hotel.findAll({
+      order: [[prop, value]],
+    });
+    return hotels.slice(0, 10);
+  }
+
   async findById(id) {
     const hotel = await models.Hotel.findByPk(id);
 
     if (!hotel) {
-      throw boom.notFound('Hotel Not Found');
+      throw boom.notFound("Hotel Not Found");
     }
 
     return hotel;

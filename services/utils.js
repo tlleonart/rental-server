@@ -1,7 +1,7 @@
-const { createHash } = require('crypto');
+const { createHash } = require("crypto");
 
 function hash(string) {
-  return createHash('sha256').update(string).digest('hex');
+  return createHash("sha256").update(string).digest("hex");
 }
 
 const timeStamp = Math.floor(Date.now() / 1000);
@@ -11,4 +11,8 @@ const secret = '4af634c7d1';
 const code = apiKey + secret + timeStamp;
 const signature = hash(code);
 
-module.exports = { url, apiKey, signature };
+module.exports = {
+  url,
+  apiKey,
+  signature,
+};
