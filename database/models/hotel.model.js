@@ -26,6 +26,10 @@ const HotelSchema = {
     allowNull: false,
     type: DataTypes.INTEGER,
   },
+  price: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+  },
   countryCode: {
     allowNull: false,
     type: DataTypes.STRING,
@@ -82,7 +86,6 @@ const HotelSchema = {
     defaultValue: false,
     type: DataTypes.BOOLEAN,
   },
-
 };
 
 class Hotel extends Model {

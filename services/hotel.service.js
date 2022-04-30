@@ -1,5 +1,6 @@
 const axios = require('axios');
 const boom = require('@hapi/boom');
+const { Op } = require('sequelize');
 const { url, apiKey, signature } = require('./utils');
 const { models } = require('../libs/sequelize');
 
@@ -7,13 +8,16 @@ class HotelService {
   constructor() {}
 
   async findApi() {
-    const hotelReq = await axios.get(url, { headers: { 'Api-key': apiKey, 'X-Signature': signature } });
+    const hotelReq = await axios.get(url, {
+      headers: { "Api-key": apiKey, "X-Signature": signature },
+    });
     const hotelsApi = await hotelReq.data.hotels.map((hotel) => {
       const hotelObj = {
         name: hotel.name.content,
         description: hotel.description.content,
         stars: hotel.S2C,
         ranking: hotel.ranking,
+        price: Math.floor(Math.random() * (100 - hotel.ranking) * 40),
         countryCode: hotel.countryCode,
         latitude: hotel.coordinates.latitude,
         longitude: hotel.coordinates.longitude,
@@ -24,10 +28,14 @@ class HotelService {
         phones: hotel.phones[0].phoneNumber,
         children: hotel.rooms[0].maxChildren,
         maxPax: hotel.rooms[0].maxPax,
-        gallery: hotel.images.filter((img) => img.imageTypeCode === 'GEN' || img.imageTypeCode === 'PIS').map((i) => ({
-          imageTypeCode: i.imageTypeCode,
-          path: `http://photos.hotelbeds.com/giata/original/${i.path}`,
-        })),
+        gallery: hotel.images
+          .filter(
+            (img) => img.imageTypeCode === "GEN" || img.imageTypeCode === "PIS"
+          )
+          .map((i) => ({
+            imageTypeCode: i.imageTypeCode,
+            path: `http://photos.hotelbeds.com/giata/original/${i.path}`,
+          })),
       };
       return hotelObj;
     });
@@ -36,6 +44,7 @@ class HotelService {
 
   async dbLoad() {
     const apiHotels = await this.findApi();
+
     apiHotels.map((h) => models.Hotel.create(h));
   }
 
@@ -49,13 +58,37 @@ class HotelService {
     return hotels;
   }
 
-  async findOne(id) {
+  async filter({ prop, value }) {
+    const hotels = await models.Hotel.findAll({
+      order: [[prop, value]],
+    });
+    return hotels.slice(0, 10);
+  }
+
+  async findById(id) {
     const hotel = await models.Hotel.findByPk(id);
 
     if (!hotel) {
+      throw boom.notFound("Hotel Not Found");
+    }
+
+    return hotel;
+  }
+
+  async findByName(name) {
+    const hotelByName = await models.Hotel.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.iLike]: name } }, { name: { [Op.substring]: name } },
+        ],
+      },
+    });
+
+    if (!hotelByName.length) {
       throw boom.notFound('Hotel Not Found');
     }
-    return hotel;
+
+    return hotelByName;
   }
 
   async create(body) {

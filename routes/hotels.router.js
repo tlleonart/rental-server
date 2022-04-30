@@ -2,7 +2,11 @@ const express = require('express');
 
 const validatorHandler = require('../middlewares/validator.handler');
 
-const { getHotelSchema, createHotelSchema, updateHotelSchema } = require('../schemas/hotels.schema');
+const {
+  getHotelSchema,
+  createHotelSchema,
+  updateHotelSchema,
+} = require('../schemas/hotels.schema');
 
 const HotelService = require('../services/hotel.service');
 
@@ -11,10 +15,32 @@ const router = express.Router();
 const service = new HotelService();
 
 router.get('/', async (req, res, next) => {
-  try {
-    const hotels = await service.find();
+  const { name } = req.query;
 
-    res.json(hotels);
+  if (!name) {
+    try {
+      const hotels = await service.find();
+
+      res.json(hotels);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    try {
+      const hotelByName = await service.findByName(name);
+
+      res.json(hotelByName);
+    } catch (error) {
+      next(error);
+    }
+  }
+});
+
+router.get('/order', async (req, res, next) => {
+  try {
+    const { query } = req;
+    const orderedHotels = await service.filter(query);
+    return res.json(orderedHotels);
   } catch (error) {
     next(error);
   }
