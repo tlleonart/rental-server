@@ -258,4 +258,7 @@ $RECYCLE.BIN/
 ### PostgreSQL ###
 postgres_data
 
+### VisualStudioCode ###
+.vscode
+
 # End of https://www.toptal.com/developers/gitignore/api/node,android,windows,macos,linux
