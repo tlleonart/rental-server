@@ -58,9 +58,9 @@ class HotelService {
     return hotels;
   }
 
-  async filter(hotels, { prop, value }) {
-    if (hotels.length === 0) {
-      await this.dbLoad();
+  async filter({ prop, value }) {
+    if (!prop && !value) {
+      throw boom.notFound('Query Not Found');
     }
     const filteredHotels = await models.Hotel.findAll({
       order: [[prop, value]],
