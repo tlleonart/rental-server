@@ -40,7 +40,7 @@ router.get('/filter', async (req, res, next) => {
   try {
     const { query } = req;
     const orderedHotels = await service.filter(query);
-    return res.json(orderedHotels);
+    res.json(orderedHotels);
   } catch (error) {
     next(error);
   }
@@ -96,5 +96,18 @@ router.patch(
     }
   },
 );
+
+router.patch('/delete/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+
+    const hotel = await service.delete(id, { isDeleted: body.isDeleted });
+
+    res.json(hotel);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

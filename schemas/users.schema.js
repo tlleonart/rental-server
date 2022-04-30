@@ -4,10 +4,10 @@ const id = Joi.number();
 const name = Joi.string();
 const lastName = Joi.string();
 const userName = Joi.string();
-const email = Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } });
+const email = Joi.string();
 const birthDate = Joi.string();
-const password = Joi.string().alphanum().max(20).min(8);
-const repeatPassword = Joi.ref(password);
+const password = Joi.string();
+const repeatPassword = Joi.string().valid(Joi.ref('password'));
 const profilePic = Joi.string();
 
 const getUserSchema = Joi.object({
