@@ -14,14 +14,25 @@ const router = express.Router();
 
 const service = new HotelService();
 
-router.get("/", async (req, res, next) => {
-  try {
-    const hotels = await service.find();
+router.get('/', async (req, res, next) => {
+  const { name } = req.query;
 
-    return res.json(hotels);
-  } catch (error) {
-    next(error);
-  }
+  if (!name) {
+    try {
+      const hotels = await service.find();
+
+      res.json(hotels);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    try {
+      const hotelByName = await service.findByName(name);
+
+      res.json(hotelByName);
+    } catch (error) {
+      next(error);
+    }
 });
 
 router.get("/order", async (req, res, next) => {

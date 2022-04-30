@@ -1,7 +1,8 @@
-const axios = require("axios");
-const boom = require("@hapi/boom");
-const { url, apiKey, signature } = require("./utils");
-const { models } = require("../libs/sequelize");
+const axios = require('axios');
+const boom = require('@hapi/boom');
+const { Op } = require('sequelize');
+const { url, apiKey, signature } = require('./utils');
+const { models } = require('../libs/sequelize');
 
 class HotelService {
   constructor() {}
@@ -16,6 +17,7 @@ class HotelService {
         description: hotel.description.content,
         stars: hotel.S2C,
         ranking: hotel.ranking,
+        price: Math.floor(Math.random() * (100 - hotel.ranking) * 40),
         countryCode: hotel.countryCode,
         latitude: hotel.coordinates.latitude,
         longitude: hotel.coordinates.longitude,
@@ -42,6 +44,7 @@ class HotelService {
 
   async dbLoad() {
     const apiHotels = await this.findApi();
+
     apiHotels.map((h) => models.Hotel.create(h));
   }
 
@@ -62,13 +65,30 @@ class HotelService {
     return hotels.slice(0, 10);
   }
 
-  async findOne(id) {
+  async findById(id) {
     const hotel = await models.Hotel.findByPk(id);
 
     if (!hotel) {
       throw boom.notFound("Hotel Not Found");
     }
+
     return hotel;
+  }
+
+  async findByName(name) {
+    const hotelByName = await models.Hotel.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.iLike]: name } }, { name: { [Op.substring]: name } },
+        ],
+      },
+    });
+
+    if (!hotelByName.length) {
+      throw boom.notFound('Hotel Not Found');
+    }
+
+    return hotelByName;
   }
 
   async create(body) {
