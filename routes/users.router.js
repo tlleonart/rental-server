@@ -20,7 +20,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
 router.get(
   '/:id',
   validatorHandler(getUserSchema, 'params'),
@@ -55,20 +54,17 @@ router.patch(
   },
 );
 
-router.patch('/delete/:id', async (req, res, next) => {
-=======
 router.get('/filter', async (req, res, next) => {
   try {
     const { query } = req;
     const orderedUsers = await service.filter(query);
-    return res.json(orderedUsers);
+    res.json(orderedUsers);
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/:id', async (req, res, next) => {
->>>>>>> fda6278b6b3104b81f2a7c6a964aac30333645c0
+router.patch('/delete/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const { body } = req;

@@ -68,15 +68,12 @@ class User extends Model {
       through: models.UserHotel,
       foreignKey: 'userId',
       otherKey: 'hotelId',
-<<<<<<< HEAD
-=======
     });
     this.belongsToMany(models.Review, {
       as: 'reviews',
       through: models.UserReview,
       foreignKey: 'userId',
       otherKey: 'reviewId',
->>>>>>> fda6278b6b3104b81f2a7c6a964aac30333645c0
     });
   }
 
