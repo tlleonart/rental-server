@@ -36,7 +36,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/order', async (req, res, next) => {
+router.get('/filter', async (req, res, next) => {
   try {
     const { query } = req;
     const orderedHotels = await service.filter(query);
