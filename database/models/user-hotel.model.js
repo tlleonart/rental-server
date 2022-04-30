@@ -33,7 +33,18 @@ const UserHotelSchema = {
 };
 
 class UserHotel extends Model {
-  static associate() {}
+  static associate(models) {
+    this.belongsTo(models.Hotel, {
+      as: 'hotels',
+      foreignKey: 'userHotelId',
+      otherKey: 'hotelId',
+    });
+    this.belongsTo(models.User, {
+      as: 'users',
+      foreignKey: 'userHotelId',
+      otherKey: 'userId',
+    });
+  }
 
   static config(sequelize) {
     return {

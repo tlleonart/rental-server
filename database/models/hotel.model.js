@@ -1,6 +1,6 @@
-const { Model, DataTypes, Sequelize } = require("sequelize");
+const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const HOTEL_TABLE = "hotels";
+const HOTEL_TABLE = 'hotels';
 
 const HotelSchema = {
   id: {
@@ -20,7 +20,7 @@ const HotelSchema = {
   stars: {
     allowNull: false,
     type: DataTypes.STRING,
-    defaultValue: "3*",
+    defaultValue: '3*',
   },
   ranking: {
     allowNull: false,
@@ -77,7 +77,7 @@ const HotelSchema = {
   },
   createdAt: {
     allowNull: false,
-    field: "created_at",
+    field: 'created_at',
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
   },
@@ -89,13 +89,26 @@ const HotelSchema = {
 };
 
 class Hotel extends Model {
-  static associate() {}
+  static associate(models) {
+    this.belongsToMany(models.User, {
+      as: 'users',
+      through: models.UserHotel,
+      foreignKey: 'hotelId',
+      otherKey: 'userId',
+    });
+    this.belongsToMany(models.Review, {
+      as: 'reviews',
+      through: models.HotelReview,
+      foreignKey: 'hotelId',
+      otherKey: 'reviewId',
+    });
+  }
 
   static config(sequelize) {
     return {
       sequelize,
       tableName: HOTEL_TABLE,
-      modelName: "Hotel",
+      modelName: 'Hotel',
       timestamps: false,
     };
   }
