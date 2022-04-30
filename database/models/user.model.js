@@ -1,6 +1,6 @@
-const { Model, DataTypes, Sequelize } = require("sequelize");
+const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const USER_TABLE = "users";
+const USER_TABLE = 'users';
 
 const UserSchema = {
   id: {
@@ -11,7 +11,7 @@ const UserSchema = {
   },
   createdAt: {
     allowNull: false,
-    field: "created_at",
+    field: 'created_at',
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
   },
@@ -64,10 +64,16 @@ const UserSchema = {
 class User extends Model {
   static associate(models) {
     this.belongsToMany(models.Hotel, {
-      as: "hotels",
+      as: 'hotels',
       through: models.UserHotel,
-      foreignKey: "userId",
-      otherKey: "hotelId",
+      foreignKey: 'userId',
+      otherKey: 'hotelId',
+    });
+    this.belongsToMany(models.Review, {
+      as: 'reviews',
+      through: models.UserReview,
+      foreignKey: 'userId',
+      otherKey: 'reviewId',
     });
   }
 
@@ -75,7 +81,7 @@ class User extends Model {
     return {
       sequelize,
       tableName: USER_TABLE,
-      modelName: "User",
+      modelName: 'User',
       timestamps: false,
     };
   }

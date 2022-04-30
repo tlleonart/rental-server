@@ -1,25 +1,16 @@
 const { DataTypes, Model } = require('sequelize');
 
+const { HOTEL_TABLE } = require('./hotel.model');
 const { REVIEW_TABLE } = require('./review.model');
-const { USER_TABLE } = require('./user.model');
 
-const USER_REVIEW_TABLE = 'user_review';
+const HOTEL_REVIEW_TABLE = 'hotel_review';
 
-const UserReviewSchema = {
+const HotelReviewSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
-  },
-  userId: {
-    allowNull: false,
-    field: 'user_id',
-    type: DataTypes.INTEGER,
-    references: {
-      model: USER_TABLE,
-      key: 'id',
-    },
   },
   reviewId: {
     allowNull: false,
@@ -30,30 +21,39 @@ const UserReviewSchema = {
       key: 'id',
     },
   },
+  hotelId: {
+    allowNull: false,
+    field: 'hotel_id',
+    type: DataTypes.INTEGER,
+    references: {
+      model: HOTEL_TABLE,
+      key: 'id',
+    },
+  },
 };
 
-class UserReview extends Model {
+class HotelReview extends Model {
   static associate(models) {
+    this.belongsTo(models.Hotel, {
+      as: 'hotels',
+      foreignKey: 'hotelReviewId',
+      otherKey: 'hotelId',
+    });
     this.belongsTo(models.Review, {
       as: 'reviews',
-      foreignKey: 'userReviewId',
+      foreignKey: 'hotelReviewId',
       otherKey: 'reviewId',
-    });
-    this.belongsTo(models.User, {
-      as: 'users',
-      foreignKey: 'userReviewId',
-      otherKey: 'userId',
     });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: USER_REVIEW_TABLE,
-      modelName: 'UserReview',
+      tableName: HOTEL_REVIEW_TABLE,
+      modelName: 'HotelReview',
       timestamps: false,
     };
   }
 }
 
-module.exports = { UserReview, USER_REVIEW_TABLE, UserReviewSchema };
+module.exports = { HotelReview, HOTEL_REVIEW_TABLE, HotelReviewSchema };
