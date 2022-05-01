@@ -28,6 +28,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+require('./utils/auth');
+
 routerApi(app);
 
 app.use(logErrors);
