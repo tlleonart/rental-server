@@ -59,6 +59,11 @@ const UserSchema = {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  role: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'customer',
+  },
 };
 
 class User extends Model {

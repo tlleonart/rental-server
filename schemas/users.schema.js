@@ -9,6 +9,7 @@ const birthDate = Joi.string();
 const password = Joi.string();
 const repeatPassword = Joi.string().valid(Joi.ref('password'));
 const profilePic = Joi.string();
+const role = Joi.string();
 
 const getUserSchema = Joi.object({
   id: id.required(),
