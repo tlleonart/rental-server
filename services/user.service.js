@@ -17,6 +17,14 @@ class UserService {
     return users;
   }
 
+  async findByEmail(email) {
+    const users = await models.User.findOne({
+      where: { email },
+    });
+
+    return users;
+  }
+
   async filter({ prop, value }) {
     const users = await models.User.findAll({
       order: [[prop, value]],
