@@ -23,10 +23,9 @@ const ReviewSchema = {
     allowNull: false,
     type: DataTypes.TEXT,
   },
-  stars: {
+  score: {
     allowNull: false,
-    type: DataTypes.STRING,
-    defaultValue: '3*',
+    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
   },
 };
 

@@ -59,10 +59,13 @@ class HotelService {
   }
 
   async filter({ prop, value }) {
-    const hotels = await models.Hotel.findAll({
+    if (!prop && !value) {
+      throw boom.notFound('Query Not Found');
+    }
+    const filteredHotels = await models.Hotel.findAll({
       order: [[prop, value]],
     });
-    return hotels.slice(0, 10);
+    return filteredHotels.slice(0, 10);
   }
 
   async findById(id) {
@@ -76,20 +79,14 @@ class HotelService {
   }
 
   async findByName(name) {
-    const hotelByName = await models.Hotel.findAll({
-      where: {
-        [Op.or]: [
-          { name: { [Op.iLike]: name } },
-          { name: { [Op.substring]: name } },
-        ],
-      },
-    });
+    const hotels = await this.find();
+    const hotel = hotels.filter((h) => h.name.toLowerCase().includes(name.toLowerCase()));
 
-    if (!hotelByName.length) {
+    if (!hotel.length) {
       throw boom.notFound('Hotel Not Found');
     }
 
-    return hotelByName;
+    return hotel;
   }
 
   async create(body) {
