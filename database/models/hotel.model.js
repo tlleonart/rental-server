@@ -74,6 +74,7 @@ const HotelSchema = {
   gallery: {
     allowNull: false,
     type: DataTypes.ARRAY(DataTypes.JSON),
+    defaultValue: ['https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/512x512/hotel.png'],
   },
   createdAt: {
     allowNull: false,
