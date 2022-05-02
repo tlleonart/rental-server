@@ -50,7 +50,7 @@ const UserSchema = {
     type: DataTypes.STRING,
   },
   profilePic: {
-    allowNull: true,
+    allowNull: false,
     type: DataTypes.STRING,
     defaultValue: 'https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png',
   },
