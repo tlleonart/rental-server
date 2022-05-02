@@ -20,7 +20,7 @@ const createUserSchema = Joi.object({
   lastName: lastName.required(),
   userName: userName.required(),
   email: email.required(),
-  birthDate: birthDate.required(),
+  birthDate,
   password: password.required(),
   repeatPassword: repeatPassword.required(),
   profilePic,
