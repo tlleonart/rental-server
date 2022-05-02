@@ -79,20 +79,14 @@ class HotelService {
   }
 
   async findByName(name) {
-    const hotelByName = await models.Hotel.findAll({
-      where: {
-        [Op.or]: [
-          { name: { [Op.iLike]: name } },
-          { name: { [Op.substring]: name } },
-        ],
-      },
-    });
+    const hotels = await this.find();
+    const hotel = hotels.filter((h) => h.name.toLowerCase().includes(name.toLowerCase()));
 
-    if (!hotelByName.length) {
+    if (!hotel.length) {
       throw boom.notFound('Hotel Not Found');
     }
 
-    return hotelByName;
+    return hotel;
   }
 
   async create(body) {
