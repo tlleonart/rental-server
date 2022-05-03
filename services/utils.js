@@ -1,7 +1,7 @@
-const { createHash } = require("crypto");
+const { createHash } = require('crypto');
 
 function hash(string) {
-  return createHash("sha256").update(string).digest("hex");
+  return createHash('sha256').update(string).digest('hex');
 }
 
 const timeStamp = Math.floor(Date.now() / 1000);

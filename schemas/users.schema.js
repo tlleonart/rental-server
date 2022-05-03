@@ -10,6 +10,7 @@ const password = Joi.string();
 const repeatPassword = Joi.string().valid(Joi.ref('password'));
 const profilePic = Joi.string();
 const role = Joi.string();
+const hotels = Joi.array().items(Joi.string());
 
 const getUserSchema = Joi.object({
   id: id.required(),
@@ -24,6 +25,7 @@ const createUserSchema = Joi.object({
   password: password.required(),
   repeatPassword: repeatPassword.required(),
   profilePic,
+  hotels,
 });
 
 const updateUserSchema = Joi.object({
