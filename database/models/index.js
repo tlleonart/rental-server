@@ -15,7 +15,7 @@ function setupModels(sequelize) {
   User.associate(sequelize.models);
   Hotel.associate(sequelize.models);
   Review.associate(sequelize.models);
-  UserHotel.associate(sequelize.models);
+  // UserHotel.associate(sequelize.models);
   UserReview.associate(sequelize.models);
   HotelReview.associate(sequelize.models);
 }
