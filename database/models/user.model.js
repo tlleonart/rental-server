@@ -67,14 +67,7 @@ const UserSchema = {
 };
 
 class User extends Model {
-  static associate(models) {
-    this.belongsToMany(models.Hotel, {
-      as: 'hotels',
-      through: models.UserHotel,
-      foreignKey: 'userId',
-      otherKey: 'hotelId',
-    });
-  }
+  static associate() {}
 
   static config(sequelize) {
     return {

@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const REVIEW_TABLE = 'reviews';
+const SUSCRIPTOR_TABLE = 'suscriptors';
 
-const ReviewSchema = {
+const SuscriptorSchema = {
   id: {
     allowNull: false,
     primaryKey: true,
@@ -15,31 +15,19 @@ const ReviewSchema = {
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
   },
-  title: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
-  description: {
-    allowNull: false,
-    type: DataTypes.TEXT,
-  },
-  score: {
-    allowNull: false,
-    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
-  },
 };
 
-class Review extends Model {
+class Suscriptor extends Model {
   static associate() {}
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: REVIEW_TABLE,
-      modelName: 'Review',
+      tableName: SUSCRIPTOR_TABLE,
+      modelName: 'Suscriptor',
       timestamps: false,
     };
   }
 }
 
-module.exports = { REVIEW_TABLE, ReviewSchema, Review };
+module.exports = { SUSCRIPTOR_TABLE, SuscriptorSchema, Suscriptor };

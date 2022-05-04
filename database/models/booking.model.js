@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const REVIEW_TABLE = 'reviews';
+const BOOKING_TABLE = 'bookings';
 
-const ReviewSchema = {
+const BookingSchema = {
   id: {
     allowNull: false,
     primaryKey: true,
@@ -15,31 +15,19 @@ const ReviewSchema = {
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
   },
-  title: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
-  description: {
-    allowNull: false,
-    type: DataTypes.TEXT,
-  },
-  score: {
-    allowNull: false,
-    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
-  },
 };
 
-class Review extends Model {
+class Booking extends Model {
   static associate() {}
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: REVIEW_TABLE,
-      modelName: 'Review',
+      tableName: BOOKING_TABLE,
+      modelName: 'Booking',
       timestamps: false,
     };
   }
 }
 
-module.exports = { REVIEW_TABLE, ReviewSchema, Review };
+module.exports = { BOOKING_TABLE, BookingSchema, Booking };
