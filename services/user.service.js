@@ -54,19 +54,19 @@ class UserService {
     const hash = await bcrypt.hash(body.password, 10);
 
     const newUser = await models.User.create({
-      name: body.name,
+      typePerson: body.typePerson,
+      firstName: body.firstName,
       lastName: body.lastName,
-      userName: body.userName,
+      organization: body.organization,
       email: body.email,
-      birthDate: body.birthDate,
       password: hash,
       repeatPassword: hash,
-      profilePic: body.profilePic,
+      role: body.role,
+      image: body.image,
     });
     const hotels = await models.Hotel.findAll({
       where: { name: body.hotels },
     });
-    console.log(hotels);
     delete newUser.dataValues.password;
     delete newUser.dataValues.repeatPassword;
     newUser.addHotels(hotels);

@@ -1,61 +1,22 @@
-const axios = require('axios');
 const boom = require('@hapi/boom');
-const { Op } = require('sequelize');
-const { url, apiKey, signature } = require('./utils');
 const { models } = require('../libs/sequelize');
+const { hotels } = require('../API/db.json');
 
 class HotelService {
   constructor() {}
 
-  async findApi() {
-    const hotelReq = await axios.get(url, {
-      headers: { 'Api-key': apiKey, 'X-Signature': signature },
-    });
-    const hotelsApi = await hotelReq.data.hotels.map((hotel) => {
-      const hotelObj = {
-        name: hotel.name.content,
-        description: hotel.description.content,
-        stars: hotel.S2C,
-        ranking: hotel.ranking,
-        price: Math.floor(Math.random() * (100 - hotel.ranking) * 40),
-        countryCode: hotel.countryCode,
-        latitude: hotel.coordinates.latitude,
-        longitude: hotel.coordinates.longitude,
-        address: hotel.address.content,
-        city: hotel.city.content,
-        postalCode: hotel.postalCode,
-        email: hotel.email,
-        phones: hotel.phones[0].phoneNumber,
-        children: hotel.rooms ? hotel.rooms[0].maxChildren : 1,
-        maxPax: hotel.rooms ? hotel.rooms[0].maxPax : 2,
-        gallery: hotel.images
-          .filter(
-            (img) => img.imageTypeCode === 'GEN' || img.imageTypeCode === 'PIS',
-          )
-          .map((i) => ({
-            imageTypeCode: i.imageTypeCode,
-            path: `http://photos.hotelbeds.com/giata/original/${i.path}`,
-          })),
-      };
-      return hotelObj;
-    });
-    return hotelsApi;
-  }
-
   async dbLoad() {
-    const apiHotels = await this.findApi();
-
-    apiHotels.map((h) => models.Hotel.create(h));
+    await hotels.map(async (h) => await models.Hotel.create(h));
   }
 
   async find() {
-    const hotels = await models.Hotel.findAll();
+    const dbHotels = await models.Hotel.findAll();
 
-    if (hotels.length === 0) {
+    if (dbHotels.length === 0) {
       await this.dbLoad();
     }
 
-    return hotels;
+    return dbHotels;
   }
 
   async filter({ prop, value }) {
@@ -79,8 +40,8 @@ class HotelService {
   }
 
   async findByName(name) {
-    const hotels = await this.find();
-    const hotel = hotels.filter((h) => h.name.toLowerCase().includes(name.toLowerCase()));
+    const dbHotels = await this.find();
+    const hotel = dbHotels.filter((h) => h.name.toLowerCase().includes(name.toLowerCase()));
 
     if (!hotel.length) {
       throw boom.notFound('Hotel Not Found');
