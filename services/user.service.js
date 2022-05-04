@@ -15,7 +15,6 @@ class UserService {
     }
 
     delete users.dataValues.password;
-    delete users.dataValues.repeatPassword;
 
     return users;
   }
@@ -26,7 +25,6 @@ class UserService {
     });
 
     delete user.dataValues.password;
-    delete user.dataValues.repeatPassword;
 
     return user;
   }
@@ -37,7 +35,6 @@ class UserService {
     });
 
     delete users.dataValues.password;
-    delete users.dataValues.repeatPassword;
 
     return users;
   }
@@ -48,7 +45,6 @@ class UserService {
     const userDeleted = await user.update(body);
 
     delete userDeleted.dataValues.password;
-    delete userDeleted.dataValues.repeatPassword;
 
     return userDeleted;
   }
@@ -61,7 +57,6 @@ class UserService {
     }
 
     delete user.dataValues.password;
-    delete user.dataValues.repeatPassword;
 
     return user;
   }
@@ -76,7 +71,6 @@ class UserService {
       email: body.email,
       birthDate: body.birthDate,
       password: hash,
-      repeatPassword: hash,
       profilePic: body.profilePic,
     });
 
@@ -85,7 +79,6 @@ class UserService {
     });
 
     delete newUser.dataValues.password;
-    delete newUser.dataValues.repeatPassword;
 
     newUser.addHotels(hotels);
 
@@ -102,7 +95,6 @@ class UserService {
     const updatedUser = await user.update(body);
 
     delete updatedUser.dataValues.password;
-    delete updatedUser.dataValues.repeatPassword;
 
     return updatedUser;
   }

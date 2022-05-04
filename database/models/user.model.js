@@ -45,10 +45,6 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  repeatPassword: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
   profilePic: {
     allowNull: false,
     type: DataTypes.STRING,

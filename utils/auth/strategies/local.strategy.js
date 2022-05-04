@@ -26,7 +26,6 @@ const LocalStrategy = new Strategy(
         done(boom.unauthorized(), false);
       }
       delete user.dataValues.password;
-      delete user.dataValues.repeatPassword;
       done(null, user);
     } catch (error) {
       done(error, false);
