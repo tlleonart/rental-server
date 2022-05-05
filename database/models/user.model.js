@@ -9,13 +9,11 @@ const UserSchema = {
     autoIncrement: true,
     type: DataTypes.INTEGER,
   },
-  createdAt: {
-    allowNull: false,
-    field: 'created_at',
-    type: DataTypes.DATE,
-    defaultValue: Sequelize.NOW,
+  typePerson: {
+    type: DataTypes.ENUM ('natural', 'legal'),
+    allowNull: false
   },
-  name: {
+  firstName: {
     allowNull: false,
     type: DataTypes.STRING,
   },
@@ -23,7 +21,7 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  userName: {
+  organization: {
     allowNull: false,
     type: DataTypes.STRING,
     unique: true,
@@ -32,16 +30,11 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  birthDate: {
+  password: {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  isBanned: {
-    allowNull: false,
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
-  password: {
+  repeatPass: {
     allowNull: false,
     type: DataTypes.STRING,
   },
@@ -50,20 +43,38 @@ const UserSchema = {
     allowNull: true,
     type: DataTypes.STRING,
   },
-  profilePic: {
+  role: {
+    allowNull: false,
+    type: DataTypes.ENUM ('admin', 'customer', 'owner'),
+  },
+  image: {
     allowNull: false,
     type: DataTypes.STRING,
     defaultValue: 'https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png',
+  },
+  favHotels: {
+    type: DataTypes.ARRAY (DataTypes.JSON)
+  },
+  isSuscribed: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
+  },
+  isBanned: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
   isDeleted: {
     allowNull: false,
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  role: {
+  createdAt: {
     allowNull: false,
-    type: DataTypes.STRING,
-    defaultValue: 'customer',
+    field: 'created_at',
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.NOW,
   },
 };
 
