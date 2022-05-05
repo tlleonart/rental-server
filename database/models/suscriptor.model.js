@@ -9,6 +9,15 @@ const SuscriptorSchema = {
     autoIncrement: true,
     type: DataTypes.INTEGER,
   },
+  mail: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  isSuscribed: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
+  },
   createdAt: {
     allowNull: false,
     field: 'created_at',

@@ -9,6 +9,35 @@ const BookingSchema = {
     autoIncrement: true,
     type: DataTypes.INTEGER,
   },
+  checkIn: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  checkOut: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  nights: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  pricePerNight: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  payMethod: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  billing: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  isCancelled: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
   createdAt: {
     allowNull: false,
     field: 'created_at',
