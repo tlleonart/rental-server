@@ -14,8 +14,6 @@ class UserService {
       throw boom.notFound('Users Not Found');
     }
 
-    delete users.dataValues.password;
-
     return users;
   }
 
@@ -23,8 +21,6 @@ class UserService {
     const user = await models.User.findOne({
       where: { email },
     });
-
-    delete user.dataValues.password;
 
     return user;
   }
@@ -34,8 +30,6 @@ class UserService {
       order: [[prop, value]],
     });
 
-    delete users.dataValues.password;
-
     return users;
   }
 
@@ -43,8 +37,6 @@ class UserService {
     const user = await this.findOne(id);
 
     const userDeleted = await user.update(body);
-
-    delete userDeleted.dataValues.password;
 
     return userDeleted;
   }
@@ -55,8 +47,6 @@ class UserService {
     if (!user) {
       throw boom.notFound('User Not Found');
     }
-
-    delete user.dataValues.password;
 
     return user;
   }
@@ -93,8 +83,6 @@ class UserService {
     }
 
     const updatedUser = await user.update(body);
-
-    delete updatedUser.dataValues.password;
 
     return updatedUser;
   }
