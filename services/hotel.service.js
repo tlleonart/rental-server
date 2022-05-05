@@ -1,51 +1,51 @@
 const axios = require('axios');
 const boom = require('@hapi/boom');
 const { Op } = require('sequelize');
+const { user } = require('pg/lib/defaults');
 const { url, apiKey, signature } = require('./utils');
 const { models } = require('../libs/sequelize');
+const data = require('../api/api.json');
 
 class HotelService {
   constructor() {}
 
-  async findApi() {
-    const hotelReq = await axios.get(url, {
-      headers: { 'Api-key': apiKey, 'X-Signature': signature },
-    });
-    const hotelsApi = await hotelReq.data.hotels.map((hotel) => {
-      const hotelObj = {
-        name: hotel.name.content,
-        description: hotel.description.content,
-        stars: hotel.S2C,
-        ranking: hotel.ranking,
-        price: Math.floor(Math.random() * (100 - hotel.ranking) * 40),
-        countryCode: hotel.countryCode,
-        latitude: hotel.coordinates.latitude,
-        longitude: hotel.coordinates.longitude,
-        address: hotel.address.content,
-        city: hotel.city.content,
-        postalCode: hotel.postalCode,
-        email: hotel.email,
-        phones: hotel.phones[0].phoneNumber,
-        children: hotel.rooms ? hotel.rooms[0].maxChildren : 1,
-        maxPax: hotel.rooms ? hotel.rooms[0].maxPax : 2,
-        gallery: hotel.images
-          .filter(
-            (img) => img.imageTypeCode === 'GEN' || img.imageTypeCode === 'PIS',
-          )
-          .map((i) => ({
-            imageTypeCode: i.imageTypeCode,
-            path: `http://photos.hotelbeds.com/giata/original/${i.path}`,
-          })),
-      };
-      return hotelObj;
-    });
-    return hotelsApi;
-  }
+  // async findApi() {
+  //   const hotelReq = await axios.get(url, {
+  //     headers: { 'Api-key': apiKey, 'X-Signature': signature },
+  //   });
+  //   const hotelsApi = await hotelReq.data.hotels.map((hotel) => {
+  //     const hotelObj = {
+  //       name: hotel.name.content,
+  //       description: hotel.description.content,
+  //       stars: hotel.S2C,
+  //       ranking: hotel.ranking,
+  //       price: Math.floor(Math.random() * (100 - hotel.ranking) * 40),
+  //       countryCode: hotel.countryCode,
+  //       latitude: hotel.coordinates.latitude,
+  //       longitude: hotel.coordinates.longitude,
+  //       address: hotel.address.content,
+  //       city: hotel.city.content,
+  //       postalCode: hotel.postalCode,
+  //       email: hotel.email,
+  //       phones: hotel.phones[0].phoneNumber,
+  //       children: hotel.rooms ? hotel.rooms[0].maxChildren : 1,
+  //       maxPax: hotel.rooms ? hotel.rooms[0].maxPax : 2,
+  //       gallery: hotel.images
+  //         .filter(
+  //           (img) => img.imageTypeCode === 'GEN' || img.imageTypeCode === 'PIS',
+  //         )
+  //         .map((i) => ({
+  //           imageTypeCode: i.imageTypeCode,
+  //           path: `http://photos.hotelbeds.com/giata/original/${i.path}`,
+  //         })),
+  //     };
+  //     return hotelObj;
+  //   });
+  //   return hotelsApi;
+  // }
 
   async dbLoad() {
-    const apiHotels = await this.findApi();
-
-    apiHotels.map((h) => models.Hotel.create(h));
+    data.hotels.map((h) => models.Hotel.create(h));
   }
 
   async find() {
@@ -69,7 +69,7 @@ class HotelService {
   }
 
   async findById(id) {
-    const hotel = await models.Hotel.findByPk(id);
+    const hotel = await models.Hotel.findAll({ include: models.User, where: { id } });
 
     if (!hotel) {
       throw boom.notFound('Hotel Not Found');
@@ -91,6 +91,10 @@ class HotelService {
 
   async create(body) {
     const newHotel = await models.Hotel.create(body);
+    const user = await models.User.findAll({
+      where: { id: body.user },
+    });
+    newHotel.addUsers(user);
 
     return newHotel;
   }

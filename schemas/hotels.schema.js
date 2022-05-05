@@ -16,6 +16,7 @@ const email = Joi.string();
 const phones = Joi.string();
 const children = Joi.number();
 const maxPax = Joi.number();
+const user = Joi.number();
 
 const imageTypeCode = Joi.string();
 const path = Joi.string();
@@ -46,6 +47,7 @@ const createHotelSchema = Joi.object({
   children: children.required(),
   maxPax: maxPax.required(),
   gallery: gallery.required(),
+  user,
 });
 
 const updateHotelSchema = Joi.object({

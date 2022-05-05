@@ -8,7 +8,7 @@ class UserService {
   constructor() {}
 
   async find() {
-    const users = await models.User.findAll({ include: 'hotels' });
+    const users = await models.User.findAll({ include: models.Hotel });
 
     if (!users) {
       throw boom.notFound('Users Not Found');

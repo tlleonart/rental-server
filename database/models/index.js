@@ -1,3 +1,4 @@
+// const { Sequelize } = require('sequelize/types');
 const { User, UserSchema } = require('./user.model');
 const { Hotel, HotelSchema } = require('./hotel.model');
 const { Review, ReviewSchema } = require('./review.model');
@@ -12,6 +13,8 @@ function setupModels(sequelize) {
   Suscriptor.init(SuscriptorSchema, Suscriptor.config(sequelize));
   Booking.init(BookingSchema, Booking.config(sequelize));
   Facility.init(FacilitySchema, Facility.config(sequelize));
+  User.associate(sequelize.models);
+  Hotel.associate(sequelize.models);
 }
 
 module.exports = setupModels;
