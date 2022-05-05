@@ -19,7 +19,7 @@ class HotelService {
     return dbHotels;
   }
 
-  async filter({ prop, value }) {
+  async order({ prop, value }) {
     if (!prop && !value) {
       throw boom.notFound('Query Not Found');
     }
@@ -27,6 +27,19 @@ class HotelService {
       order: [[prop, value]],
     });
     return filteredHotels.slice(0, 10);
+  }
+
+  async filter(body) {
+    const payload = Object.entries(body);
+    if (!payload) {
+      throw boom.notFound('Body Not Found');
+    }
+    const dbHotels = await this.find();
+    const filteredHotels = payload?.map((p) => {
+      const filter = dbHotels.filter((h) => h[p[0]].toLowerCase().includes(p[1].toLowerCase()));
+      return filter;
+    });
+    return filteredHotels;
   }
 
   async findById(id) {
