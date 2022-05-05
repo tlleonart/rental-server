@@ -19,18 +19,21 @@ const HotelSchema = {
   },
   stars: {
     allowNull: false,
-    type: DataTypes.STRING,
-    defaultValue: '3*',
-  },
-  ranking: {
-    allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.ENUM ('1', '2', '3', '4', '5'),
   },
   price: {
     allowNull: false,
     type: DataTypes.INTEGER,
   },
-  countryCode: {
+  country: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  city: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  address: {
     allowNull: false,
     type: DataTypes.STRING,
   },
@@ -42,39 +45,42 @@ const HotelSchema = {
     allowNull: false,
     type: DataTypes.FLOAT,
   },
-  address: {
-    allowNull: false,
-    type: DataTypes.STRING,
+  guests: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
-  city: {
+  children: {
     allowNull: false,
-    type: DataTypes.STRING,
-  },
-  postalCode: {
-    allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
   },
   email: {
     allowNull: false,
     type: DataTypes.STRING,
     defaultValue: "We don't have an email",
   },
-  phones: {
+  phone: {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  children: {
+  web: {
+    type: DataTypes.STRING,
     allowNull: false,
-    type: DataTypes.INTEGER,
+    defaultValue: "We don't have a website"
   },
-  maxPax: {
+  image: {
     allowNull: false,
-    type: DataTypes.INTEGER,
-  },
-  gallery: {
-    allowNull: false,
-    type: DataTypes.ARRAY(DataTypes.JSON),
+    type: DataTypes.ARRAY (DataTypes.JSON),
     defaultValue: ['https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/512x512/hotel.png'],
+  },
+  isBanned: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  isDeleted: {
+    allowNull: false,
+    defaultValue: false,
+    type: DataTypes.BOOLEAN,
   },
   createdAt: {
     allowNull: false,
@@ -82,28 +88,10 @@ const HotelSchema = {
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
   },
-  isDeleted: {
-    allowNull: false,
-    defaultValue: false,
-    type: DataTypes.BOOLEAN,
-  },
 };
 
 class Hotel extends Model {
-  static associate(models) {
-    this.belongsToMany(models.User, {
-      as: 'users',
-      through: models.UserHotel,
-      foreignKey: 'hotelId',
-      otherKey: 'userId',
-    });
-    this.belongsToMany(models.Review, {
-      as: 'reviews',
-      through: models.HotelReview,
-      foreignKey: 'hotelId',
-      otherKey: 'reviewId',
-    });
-  }
+  static associate() {}
 
   static config(sequelize) {
     return {

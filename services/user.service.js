@@ -18,17 +18,18 @@ class UserService {
   }
 
   async findByEmail(email) {
-    const users = await models.User.findOne({
+    const user = await models.User.findOne({
       where: { email },
     });
 
-    return users;
+    return user;
   }
 
   async filter({ prop, value }) {
     const users = await models.User.findAll({
       order: [[prop, value]],
     });
+
     return users;
   }
 
@@ -64,12 +65,14 @@ class UserService {
       role: body.role,
       image: body.image,
     });
+
     const hotels = await models.Hotel.findAll({
       where: { name: body.hotels },
     });
     delete newUser.dataValues.password;
-    delete newUser.dataValues.repeatPassword;
+
     newUser.addHotels(hotels);
+
     return newUser;
   }
 
