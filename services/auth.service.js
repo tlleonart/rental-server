@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const nodemailer = require('nodemailer');
-const { IGNORE } = require('sequelize/types/index-hints');
 
 const { config } = require('../config/config');
 
