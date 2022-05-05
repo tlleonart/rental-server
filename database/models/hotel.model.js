@@ -19,7 +19,7 @@ const HotelSchema = {
   },
   stars: {
     allowNull: false,
-    type: DataTypes.ENUM ('1', '2', '3', '4', '5'),
+    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
   },
   price: {
     allowNull: false,
@@ -47,7 +47,7 @@ const HotelSchema = {
   },
   guests: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   children: {
     allowNull: false,
@@ -65,17 +65,17 @@ const HotelSchema = {
   web: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "We don't have a website"
+    defaultValue: "We don't have a website",
   },
   image: {
     allowNull: false,
-    type: DataTypes.ARRAY (DataTypes.JSON),
+    type: DataTypes.ARRAY(DataTypes.JSON),
     defaultValue: ['https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/512x512/hotel.png'],
   },
   isBanned: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false
+    defaultValue: false,
   },
   isDeleted: {
     allowNull: false,

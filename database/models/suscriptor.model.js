@@ -11,12 +11,12 @@ const SuscriptorSchema = {
   },
   mail: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   isSuscribed: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: true
+    defaultValue: true,
   },
   createdAt: {
     allowNull: false,
