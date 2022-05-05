@@ -95,7 +95,7 @@ class AuthService {
     const transporter = nodemailer.createTransport({
       host: 'smtp.mailtrap.io',
       secure: true,
-      port: 465,
+      port: 2525,
       auth: {
         user: config.smtpEmail,
         pass: config.smtpPassword,
