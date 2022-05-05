@@ -9,16 +9,6 @@ const ReviewSchema = {
     autoIncrement: true,
     type: DataTypes.INTEGER,
   },
-  createdAt: {
-    allowNull: false,
-    field: 'created_at',
-    type: DataTypes.DATE,
-    defaultValue: Sequelize.NOW,
-  },
-  title: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
   description: {
     allowNull: false,
     type: DataTypes.TEXT,
@@ -26,6 +16,40 @@ const ReviewSchema = {
   score: {
     allowNull: false,
     type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+  },
+  priceQualityRatio: {
+    allowNull: false,
+    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+  },
+  facilities: {
+    allowNull: false,
+    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+  },
+  location: {
+    allowNull: false,
+    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+  },
+  cleaning: {
+    allowNull: false,
+    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+  },
+  attentionService: {
+    allowNull: false,
+    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+  },
+  comfortable: {
+    allowNull: false,
+    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+  },
+  stayedOn: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  createdAt: {
+    allowNull: false,
+    field: 'created_at',
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.NOW,
   },
 };
 
