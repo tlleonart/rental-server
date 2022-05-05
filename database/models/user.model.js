@@ -45,8 +45,9 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  repeatPassword: {
-    allowNull: false,
+  recoveryToken: {
+    field: 'recovery_token',
+    allowNull: true,
     type: DataTypes.STRING,
   },
   profilePic: {

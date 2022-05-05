@@ -14,9 +14,6 @@ class UserService {
       throw boom.notFound('Users Not Found');
     }
 
-    delete users.dataValues.password;
-    delete users.dataValues.repeatPassword;
-
     return users;
   }
 
@@ -24,9 +21,6 @@ class UserService {
     const user = await models.User.findOne({
       where: { email },
     });
-
-    delete user.dataValues.password;
-    delete user.dataValues.repeatPassword;
 
     return user;
   }
@@ -36,9 +30,6 @@ class UserService {
       order: [[prop, value]],
     });
 
-    delete users.dataValues.password;
-    delete users.dataValues.repeatPassword;
-
     return users;
   }
 
@@ -46,9 +37,6 @@ class UserService {
     const user = await this.findOne(id);
 
     const userDeleted = await user.update(body);
-
-    delete userDeleted.dataValues.password;
-    delete userDeleted.dataValues.repeatPassword;
 
     return userDeleted;
   }
@@ -59,9 +47,6 @@ class UserService {
     if (!user) {
       throw boom.notFound('User Not Found');
     }
-
-    delete user.dataValues.password;
-    delete user.dataValues.repeatPassword;
 
     return user;
   }
@@ -76,7 +61,6 @@ class UserService {
       email: body.email,
       birthDate: body.birthDate,
       password: hash,
-      repeatPassword: hash,
       profilePic: body.profilePic,
     });
 
@@ -85,7 +69,6 @@ class UserService {
     });
 
     delete newUser.dataValues.password;
-    delete newUser.dataValues.repeatPassword;
 
     newUser.addHotels(hotels);
 
@@ -100,9 +83,6 @@ class UserService {
     }
 
     const updatedUser = await user.update(body);
-
-    delete updatedUser.dataValues.password;
-    delete updatedUser.dataValues.repeatPassword;
 
     return updatedUser;
   }
