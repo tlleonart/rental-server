@@ -9,6 +9,10 @@ const FacilitySchema = {
     autoIncrement: true,
     type: DataTypes.INTEGER,
   },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   createdAt: {
     allowNull: false,
     field: 'created_at',
