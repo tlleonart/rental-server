@@ -15,35 +15,40 @@ const ReviewSchema = {
   },
   score: {
     allowNull: false,
-    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+    type: DataTypes.INTEGER,
   },
   priceQualityRatio: {
     allowNull: false,
-    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+    type: DataTypes.INTEGER,
   },
   facilities: {
     allowNull: false,
-    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+    type: DataTypes.INTEGER,
   },
   location: {
     allowNull: false,
-    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+    type: DataTypes.INTEGER,
   },
   cleaning: {
     allowNull: false,
-    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+    type: DataTypes.INTEGER,
   },
   attentionService: {
     allowNull: false,
-    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+    type: DataTypes.INTEGER,
   },
   comfortable: {
     allowNull: false,
-    type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+    type: DataTypes.INTEGER,
   },
   stayedOn: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  isDeleted: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
   createdAt: {
     allowNull: false,
@@ -54,7 +59,14 @@ const ReviewSchema = {
 };
 
 class Review extends Model {
-  static associate() {}
+  static associate(models) {
+    this.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
+    this.belongsToMany(models.Hotel, { through: 'hotel_review' });
+  }
 
   static config(sequelize) {
     return {

@@ -5,7 +5,9 @@ class ReviewService {
   constructor() {}
 
   async find() {
-    const reviews = await models.Review.findAll();
+    const reviews = await models.Review.findAll({
+      include: [models.User, models.Hotel],
+    });
 
     if (!reviews) {
       throw boom.notFound('Reviews Not Found');
@@ -26,12 +28,16 @@ class ReviewService {
 
   async create(body) {
     const newReview = await models.Review.create(body);
+    const hotel = await models.Hotel.findAll({
+      where: { id: body.hotels },
+    });
 
+    newReview.addHotels(hotel);
     return newReview;
   }
 
   async update(id, body) {
-    const review = await this.findOne(id);
+    const review = await this.findById(id);
 
     const updatedReview = await review.update(body);
 
@@ -39,7 +45,7 @@ class ReviewService {
   }
 
   async delete(id, body) {
-    const reviewDeleted = await this.findOne(id);
+    const reviewDeleted = await this.findById(id);
 
     const deleted = await reviewDeleted.update(body);
 

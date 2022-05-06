@@ -6,7 +6,7 @@ class UserService {
   constructor() {}
 
   async find() {
-    const users = await models.User.findAll({ include: models.Hotel });
+    const users = await models.User.findAll({ include: [models.Hotel, models.Review] });
 
     if (!users) {
       throw boom.notFound('Users Not Found');
@@ -21,14 +21,6 @@ class UserService {
     });
 
     return user;
-  }
-
-  async filter({ prop, value }) {
-    const users = await models.User.findAll({
-      order: [[prop, value]],
-    });
-
-    return users;
   }
 
   async delete(id, body) {
