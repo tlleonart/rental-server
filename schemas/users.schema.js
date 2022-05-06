@@ -18,9 +18,9 @@ const getUserSchema = Joi.object({
 
 const createUserSchema = Joi.object({
   typePerson: typePerson.required(),
-  firstName: firstName.required(),
-  lastName: lastName.required(),
-  organization: organization.required(),
+  firstName,
+  lastName,
+  organization,
   email: email.required(),
   password: password.required(),
   repeatPass: repeatPass.required(),
