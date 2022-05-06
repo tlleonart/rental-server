@@ -56,6 +56,16 @@ router.patch(
   },
 );
 
+router.get('/filter', async (req, res, next) => {
+  try {
+    const { query } = req;
+    const orderedUsers = await service.filter(query);
+    res.json(orderedUsers);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.patch('/delete/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
