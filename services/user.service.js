@@ -1,18 +1,26 @@
+const bcrypt = require('bcrypt');
+
 const boom = require('@hapi/boom');
 
 const { models } = require('../libs/sequelize');
 
+const { users } = require('../api/api.json');
+
 class UserService {
   constructor() {}
 
-  async find() {
-    const users = await models.User.findAll({ include: [models.Hotel, models.Review] });
+  async dbLoadUsers() {
+    users.map((u) => this.create(u));
+  }
 
-    if (!users) {
-      throw boom.notFound('Users Not Found');
+  async find() {
+    const allUsers = await models.User.findAll({ include: [models.Hotel, models.Review] });
+
+    if (allUsers.length === 0) {
+      await this.dbLoadUsers();
     }
 
-    return users;
+    return allUsers;
   }
 
   async findByEmail(email) {
@@ -24,15 +32,15 @@ class UserService {
   }
 
   async delete(id, body) {
-    const user = await this.findOne(id);
+    const user = await this.findById(id);
 
     const userDeleted = await user.update(body);
 
     return userDeleted;
   }
 
-  async findOne(id) {
-    const user = await models.User.findByPk(id);
+  async findById(id) {
+    const user = await models.User.findByPk(id, { include: [models.Hotel, models.User] });
 
     if (!user) {
       throw boom.notFound('User Not Found');
@@ -42,19 +50,18 @@ class UserService {
   }
 
   async create(body) {
-    const newUser = await models.User.create(body);
+    const hash = await bcrypt.hash(body.password, 10);
 
-    const hotels = await models.Hotel.findAll({
-      where: { id: body.hotels },
-    });
+    const newUser = await models.User.create({ ...body, password: hash, repeatPass: hash });
+
     delete newUser.dataValues.password;
+    delete newUser.dataValues.repeatPass;
 
-    newUser.addHotels(hotels);
     return newUser;
   }
 
   async update(id, body) {
-    const user = await this.findOne(id);
+    const user = await this.findById(id);
 
     if (!user) {
       throw boom.notFound('User Not Found');

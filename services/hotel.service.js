@@ -6,11 +6,11 @@ class HotelService {
   constructor() {}
 
   async dbLoad() {
-    hotels.map((h) => models.Hotel.create(h));
+    hotels.map((h) => this.create(h));
   }
 
   async find() {
-    const dbHotel = await models.Hotel.findAll();
+    const dbHotel = await models.Hotel.findAll({ include: [models.User, models.Review] });
 
     if (dbHotel.length === 0) {
       await this.dbLoad();
@@ -47,7 +47,7 @@ class HotelService {
   }
 
   async findById(id) {
-    const hotel = await models.Hotel.findAll({ include: models.User, where: { id } });
+    const hotel = await models.Hotel.findByPk(id, { include: [models.User, models.Review] });
 
     if (!hotel) {
       throw boom.notFound('Hotel Not Found');
@@ -78,7 +78,7 @@ class HotelService {
   }
 
   async update(id, body) {
-    const hotel = await this.findOne(id);
+    const hotel = await this.findById(id);
 
     const updatedHotel = await hotel.update(body);
 
@@ -86,7 +86,7 @@ class HotelService {
   }
 
   async delete(id, body) {
-    const hotelDeleted = await this.findOne(id);
+    const hotelDeleted = await this.findById(id);
 
     const deleted = await hotelDeleted.update(body);
 

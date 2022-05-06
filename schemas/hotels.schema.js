@@ -70,6 +70,7 @@ const updateHotelSchema = Joi.object({
   barImage,
   amenitiesImage,
   otherImage,
+  user,
 });
 
 module.exports = { createHotelSchema, updateHotelSchema, getHotelSchema };
