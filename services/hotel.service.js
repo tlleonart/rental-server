@@ -69,10 +69,10 @@ class HotelService {
 
   async create(body) {
     const newHotel = await models.Hotel.create(body);
-    const userOwner = await models.User.findAll({
-      where: { id: body.user },
-    });
-    newHotel.addUsers(userOwner);
+    // const userOwner = await models.User.findAll({
+    //   where: { id: body.user },
+    // });
+    // newHotel.addUsers(userOwner);
 
     return newHotel;
   }

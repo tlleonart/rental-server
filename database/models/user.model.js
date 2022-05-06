@@ -81,12 +81,8 @@ const UserSchema = {
 
 class User extends Model {
   static associate(models) {
-    this.belongsToMany(models.Hotel, {
-      through: 'user_hotel',
-    });
-    this.hasMany(models.Review, {
-      onDelete: 'cascade',
-    });
+    this.hasMany(models.Hotel);
+    this.hasMany(models.Review);
   }
 
   static config(sequelize) {

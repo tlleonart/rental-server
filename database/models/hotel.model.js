@@ -116,10 +116,12 @@ const HotelSchema = {
 
 class Hotel extends Model {
   static associate(models) {
-    this.belongsToMany(models.User, {
-      through: 'user_hotel',
+    this.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false,
+      },
     });
-    this.belongsToMany(models.Review, { through: 'hotel_review' });
+    this.hasMany(models.Review);
   }
 
   static config(sequelize) {

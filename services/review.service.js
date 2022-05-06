@@ -26,11 +26,7 @@ class ReviewService {
 
   async create(body) {
     const newReview = await models.Review.create(body);
-    const hotel = await models.Hotel.findAll({
-      where: { id: body.hotels },
-    });
 
-    newReview.addHotels(hotel);
     return newReview;
   }
 

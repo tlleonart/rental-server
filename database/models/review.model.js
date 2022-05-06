@@ -65,7 +65,11 @@ class Review extends Model {
         allowNull: false,
       },
     });
-    this.belongsToMany(models.Hotel, { through: 'hotel_review' });
+    this.belongsTo(models.Hotel, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
   }
 
   static config(sequelize) {
