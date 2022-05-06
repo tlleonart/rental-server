@@ -14,15 +14,15 @@ const UserSchema = {
     allowNull: false,
   },
   firstName: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING,
   },
   lastName: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING,
   },
   organization: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING,
     unique: true,
   },
