@@ -36,10 +36,10 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/filter', async (req, res, next) => {
+router.get('/order', async (req, res, next) => {
   try {
     const { query } = req;
-    const orderedHotels = await service.filter(query);
+    const orderedHotels = await service.order(query);
     res.json(orderedHotels);
   } catch (error) {
     next(error);
@@ -61,6 +61,18 @@ router.get(
     }
   },
 );
+
+router.post('/filter', async (req, res, next) => {
+  try {
+    const { body } = req;
+
+    const filteredHotels = await service.filter(body);
+
+    res.json(filteredHotels);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post(
   '/',

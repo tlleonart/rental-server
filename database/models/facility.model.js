@@ -11,7 +11,7 @@ const FacilitySchema = {
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   createdAt: {
     allowNull: false,

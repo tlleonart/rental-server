@@ -1,6 +1,6 @@
-const boom = require('@hapi/boom');
-
 const bcrypt = require('bcrypt');
+
+const boom = require('@hapi/boom');
 
 const { models } = require('../libs/sequelize');
 

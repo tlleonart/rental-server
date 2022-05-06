@@ -56,7 +56,7 @@ const UserSchema = {
   favHotels: {
     type: DataTypes.ARRAY(DataTypes.JSON),
   },
-  isSuscribed: {
+  isSubscribed: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: true,

@@ -43,7 +43,7 @@ const ReviewSchema = {
   },
   stayedOn: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   createdAt: {
     allowNull: false,
