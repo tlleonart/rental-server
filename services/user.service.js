@@ -10,7 +10,6 @@ class UserService {
   constructor() {}
 
   async dbLoadUsers() {
-    console.log(users[0]);
     users.map((u) => this.create(u));
   }
 
