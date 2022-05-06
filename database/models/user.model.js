@@ -14,15 +14,15 @@ const UserSchema = {
     allowNull: false,
   },
   firstName: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING,
   },
   lastName: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING,
   },
   organization: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING,
     unique: true,
   },
@@ -56,7 +56,7 @@ const UserSchema = {
   favHotels: {
     type: DataTypes.ARRAY(DataTypes.JSON),
   },
-  isSuscribed: {
+  isSubscribed: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: true,
@@ -83,6 +83,12 @@ class User extends Model {
   static associate(model) {
     this.belongsToMany(model.Hotel, {
       through: 'user_hotel',
+    });
+    this.belongsToMany(model.Review, {
+      as: 'reviews',
+      through: model.UserReview,
+      foreignKey: 'userId',
+      otherKey: 'reviewId',
     });
   }
 
