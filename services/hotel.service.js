@@ -1,22 +1,22 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
-const { hotels } = require('../API/db.json');
+const { hotels } = require('../api/api.json');
 
 class HotelService {
   constructor() {}
 
   async dbLoad() {
-    await hotels.map(async (h) => await models.Hotel.create(h));
+    hotels.map((h) => models.Hotel.create(h));
   }
 
   async find() {
-    const dbHotels = await models.Hotel.findAll();
+    const dbHotel = await models.Hotel.findAll();
 
-    if (dbHotels.length === 0) {
+    if (dbHotel.length === 0) {
       await this.dbLoad();
     }
 
-    return dbHotels;
+    return dbHotel;
   }
 
   async order({ prop, value }) {
@@ -31,19 +31,23 @@ class HotelService {
 
   async filter(body) {
     const payload = Object.entries(body);
+
     if (!payload) {
       throw boom.notFound('Body Not Found');
     }
-    const dbHotels = await this.find();
-    const filteredHotels = payload?.map((p) => {
-      const filter = dbHotels.filter((h) => h[p[0]].toLowerCase().includes(p[1].toLowerCase()));
-      return filter;
+
+    const attributes = payload.map((p) => {
+      const obj = { [p[0]]: p[1] };
+      return obj;
     });
+
+    const filteredHotels = await models.Hotel.findAll({ where: attributes });
+
     return filteredHotels;
   }
 
   async findById(id) {
-    const hotel = await models.Hotel.findByPk(id);
+    const hotel = await models.Hotel.findAll({ include: models.User, where: { id } });
 
     if (!hotel) {
       throw boom.notFound('Hotel Not Found');
@@ -53,8 +57,8 @@ class HotelService {
   }
 
   async findByName(name) {
-    const dbHotels = await this.find();
-    const hotel = dbHotels.filter((h) => h.name.toLowerCase().includes(name.toLowerCase()));
+    const hotelByName = await this.find();
+    const hotel = hotelByName.filter((h) => h.name.toLowerCase().includes(name.toLowerCase()));
 
     if (!hotel.length) {
       throw boom.notFound('Hotel Not Found');
@@ -65,6 +69,10 @@ class HotelService {
 
   async create(body) {
     const newHotel = await models.Hotel.create(body);
+    const userOwner = await models.User.findAll({
+      where: { id: body.user },
+    });
+    newHotel.addUsers(userOwner);
 
     return newHotel;
   }

@@ -1,39 +1,43 @@
 const Joi = require('joi');
 
 const id = Joi.number();
-const name = Joi.string();
+const typePerson = Joi.string().valid('natural', 'legal');
+const firstName = Joi.string();
 const lastName = Joi.string();
-const userName = Joi.string();
+const organization = Joi.string();
 const email = Joi.string();
-const birthDate = Joi.string();
 const password = Joi.string();
-const profilePic = Joi.string();
-const role = Joi.string();
-const hotels = Joi.array().items(Joi.string());
+const repeatPass = Joi.string();
+const role = Joi.string().valid('admin', 'customer', 'owner');
+const image = Joi.string();
+const hotels = Joi.array().items(Joi.number());
 
 const getUserSchema = Joi.object({
   id: id.required(),
 });
 
 const createUserSchema = Joi.object({
-  name: name.required(),
+  typePerson: typePerson.required(),
+  firstName: firstName.required(),
   lastName: lastName.required(),
-  userName: userName.required(),
+  organization: organization.required(),
   email: email.required(),
-  birthDate: birthDate.required(),
   password: password.required(),
-  profilePic,
+  repeatPass: repeatPass.required(),
+  image,
   hotels,
 });
 
 const updateUserSchema = Joi.object({
-  name,
+  typePerson,
+  firstName,
   lastName,
-  userName,
+  organization,
   email,
-  birthDate,
   password,
-  profilePic,
+  repeatPass,
+  image,
+  role,
 });
 
 module.exports = { getUserSchema, updateUserSchema, createUserSchema };
