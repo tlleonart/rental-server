@@ -40,14 +40,14 @@ class UserService {
   }
 
   async delete(id, body) {
-    const user = await this.findOne(id);
+    const user = await this.findById(id);
 
     const userDeleted = await user.update(body);
 
     return userDeleted;
   }
 
-  async findOne(id) {
+  async findById(id) {
     const user = await models.User.findByPk(id, { include: models.Hotel });
 
     if (!user) {
@@ -69,7 +69,7 @@ class UserService {
   }
 
   async update(id, body) {
-    const user = await this.findOne(id);
+    const user = await this.findById(id);
 
     if (!user) {
       throw boom.notFound('User Not Found');
