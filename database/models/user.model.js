@@ -10,8 +10,8 @@ const UserSchema = {
     type: DataTypes.INTEGER,
   },
   typePerson: {
-    type: DataTypes.ENUM ('natural', 'legal'),
-    allowNull: false
+    type: DataTypes.ENUM('natural', 'legal'),
+    allowNull: false,
   },
   firstName: {
     allowNull: false,
@@ -45,7 +45,8 @@ const UserSchema = {
   },
   role: {
     allowNull: false,
-    type: DataTypes.ENUM ('admin', 'customer', 'owner'),
+    type: DataTypes.ENUM('admin', 'customer', 'owner'),
+    defaultValue: 'customer',
   },
   image: {
     allowNull: false,
@@ -53,12 +54,12 @@ const UserSchema = {
     defaultValue: 'https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png',
   },
   favHotels: {
-    type: DataTypes.ARRAY (DataTypes.JSON)
+    type: DataTypes.ARRAY(DataTypes.JSON),
   },
   isSuscribed: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: true
+    defaultValue: true,
   },
   isBanned: {
     allowNull: false,
