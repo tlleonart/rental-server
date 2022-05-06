@@ -29,7 +29,7 @@ router.get(
     try {
       const { id } = req.params;
 
-      const user = await service.findOne(id);
+      const user = await service.findById(id);
 
       res.json(user);
     } catch (error) {
