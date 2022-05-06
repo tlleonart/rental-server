@@ -19,7 +19,7 @@ const HotelSchema = {
   },
   stars: {
     allowNull: false,
-    type: DataTypes.ENUM ('1', '2', '3', '4', '5'),
+    type: DataTypes.INTEGER,
   },
   price: {
     allowNull: false,
@@ -47,7 +47,7 @@ const HotelSchema = {
   },
   guests: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   children: {
     allowNull: false,
@@ -65,17 +65,41 @@ const HotelSchema = {
   web: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "We don't have a website"
+    defaultValue: "We don't have a website",
   },
-  image: {
+  mainImage: {
     allowNull: false,
-    type: DataTypes.ARRAY (DataTypes.JSON),
-    defaultValue: ['https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/512x512/hotel.png'],
+    type: DataTypes.STRING,
+    defaultValue: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/327308851.jpg?k=812d27fb80553a7a0231e05a076568937a18b87cb33ec7a3a1f3feb0cc89b4f1&o=&hp=1',
+  },
+  roomImage: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'https://t-cf.bstatic.com/xdata/images/hotel/max1024x768/111155493.jpg?k=112aa23f3de8bb180d37bf1380442dbb42daaef09b8c5279822d5df413d60b70&o=&hp=1'
+    ,
+  },
+  barImage: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'https://t-cf.bstatic.com/xdata/images/hotel/max1024x768/111155847.jpg?k=15f4e83547e57e407eb13f95a491272b69854eb3412fb9ae839370198d7e9ffd&o=&hp=1'
+    ,
+  },
+  amenitiesImage: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'https://t-cf.bstatic.com/xdata/images/hotel/max1024x768/111160486.jpg?k=49be336a9fdb24c9550c4d19cde31147bb475913525b907c612e6079e3e90445&o=&hp=1'
+    ,
+  },
+  otherImage: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'https://t-cf.bstatic.com/xdata/images/hotel/max1024x768/111161887.jpg?k=f40f9e8069050aadccfca8f6c6de541ef2f3dda9a203ac0052290703d49fed98&o=&hp=1'
+    ,
   },
   isBanned: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false
+    defaultValue: false,
   },
   isDeleted: {
     allowNull: false,
@@ -91,7 +115,11 @@ const HotelSchema = {
 };
 
 class Hotel extends Model {
-  static associate() {}
+  static associate(model) {
+    this.belongsToMany(model.User, {
+      through: 'user_hotel',
+    });
+  }
 
   static config(sequelize) {
     return {

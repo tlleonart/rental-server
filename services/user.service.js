@@ -8,7 +8,7 @@ class UserService {
   constructor() {}
 
   async find() {
-    const users = await models.User.findAll({ include: 'hotels' });
+    const users = await models.User.findAll({ include: models.Hotel });
 
     if (!users) {
       throw boom.notFound('Users Not Found');
@@ -54,24 +54,16 @@ class UserService {
   async create(body) {
     const hash = await bcrypt.hash(body.password, 10);
 
-    const newUser = await models.User.create({
-      name: body.name,
-      lastName: body.lastName,
-      userName: body.userName,
-      email: body.email,
-      birthDate: body.birthDate,
-      password: hash,
-      profilePic: body.profilePic,
-    });
+    const newUser = await models.User.create(body);
 
     const hotels = await models.Hotel.findAll({
-      where: { name: body.hotels },
+      where: { id: body.hotels },
     });
 
     delete newUser.dataValues.password;
 
     newUser.addHotels(hotels);
-
+    console.log(hotels[0].dataValues.id);
     return newUser;
   }
 

@@ -3,27 +3,25 @@ const Joi = require('joi');
 const id = Joi.number();
 const name = Joi.string();
 const description = Joi.string();
-const stars = Joi.string();
-const ranking = Joi.number();
+const stars = Joi.number().valid(1, 2, 3, 4, 5);
 const price = Joi.number();
-const countryCode = Joi.string();
+const country = Joi.string();
+const city = Joi.string();
+const address = Joi.string();
 const latitude = Joi.number();
 const longitude = Joi.number();
-const address = Joi.string();
-const city = Joi.string();
-const postalCode = Joi.string();
-const email = Joi.string();
-const phones = Joi.string();
+const guests = Joi.number();
 const children = Joi.number();
-const maxPax = Joi.number();
-
-const imageTypeCode = Joi.string();
-const path = Joi.string();
-
-const gallery = Joi.array().items(Joi.object({
-  imageTypeCode: imageTypeCode.required(),
-  path: path.required(),
-}));
+const email = Joi.string();
+const phone = Joi.string();
+const web = Joi.string();
+const mainImage = Joi.string();
+const roomImage = Joi.string();
+const barImage = Joi.string();
+const amenitiesImage = Joi.string();
+const otherImage = Joi.string();
+// const image = Joi.array().items(Joi.object());
+const user = Joi.number();
 
 const getHotelSchema = Joi.object({
   id: id.required(),
@@ -33,37 +31,45 @@ const createHotelSchema = Joi.object({
   name: name.required(),
   description: description.required(),
   stars,
-  ranking: ranking.required(),
   price: price.required(),
-  countryCode: countryCode.required(),
+  country: country.required(),
+  city: city.required(),
+  address: address.required(),
   latitude: latitude.required(),
   longitude: longitude.required(),
-  address: address.required(),
-  city: city.required(),
-  postalCode: postalCode.required(),
-  email,
-  phones: phones.required(),
+  guests: guests.required(),
   children: children.required(),
-  maxPax: maxPax.required(),
-  gallery: gallery.required(),
+  email,
+  phone: phone.required(),
+  web: web.required(),
+  mainImage: mainImage.required(),
+  roomImage: roomImage.required(),
+  barImage: barImage.required(),
+  amenitiesImage: amenitiesImage.required(),
+  otherImage: otherImage.required(),
+  user,
 });
 
 const updateHotelSchema = Joi.object({
   name,
   description,
-  ranking,
+  stars,
   price,
-  countryCode,
+  country,
+  city,
+  address,
   latitude,
   longitude,
-  address,
-  city,
-  postalCode,
-  email,
-  phones,
+  guests,
   children,
-  maxPax,
-  gallery,
+  email,
+  phone,
+  web,
+  mainImage,
+  roomImage,
+  barImage,
+  amenitiesImage,
+  otherImage,
 });
 
 module.exports = { createHotelSchema, updateHotelSchema, getHotelSchema };
