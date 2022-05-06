@@ -78,7 +78,7 @@ class HotelService {
   }
 
   async update(id, body) {
-    const hotel = await this.findOne(id);
+    const hotel = await this.findById(id);
 
     const updatedHotel = await hotel.update(body);
 
