@@ -11,6 +11,7 @@ const repeatPass = Joi.ref('password');
 const role = Joi.string().valid('admin', 'customer', 'owner');
 const image = Joi.string();
 const hotels = Joi.array().items(Joi.number());
+const isDeleted = Joi.boolean();
 
 const getUserSchema = Joi.object({
   id: id.required(),
@@ -38,6 +39,7 @@ const updateUserSchema = Joi.object({
   repeatPass,
   image,
   role,
+  isDeleted,
 });
 
 module.exports = { getUserSchema, updateUserSchema, createUserSchema };

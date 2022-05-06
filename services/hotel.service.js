@@ -10,7 +10,7 @@ class HotelService {
   }
 
   async find() {
-    const dbHotel = await models.Hotel.findAll();
+    const dbHotel = await models.Hotel.findAll({ include: [models.User, models.Review] });
 
     if (dbHotel.length === 0) {
       await this.dbLoad();
@@ -47,7 +47,7 @@ class HotelService {
   }
 
   async findById(id) {
-    const hotel = await models.Hotel.findAll({ include: models.User, where: { id } });
+    const hotel = await models.Hotel.findByPk(id, { include: [models.User, models.Review] });
 
     if (!hotel) {
       throw boom.notFound('Hotel Not Found');

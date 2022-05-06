@@ -80,9 +80,12 @@ const UserSchema = {
 };
 
 class User extends Model {
-  static associate(model) {
-    this.belongsToMany(model.Hotel, {
+  static associate(models) {
+    this.belongsToMany(models.Hotel, {
       through: 'user_hotel',
+    });
+    this.hasMany(models.Review, {
+      onDelete: 'cascade',
     });
   }
 

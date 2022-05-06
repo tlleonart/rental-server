@@ -2,14 +2,17 @@ const Joi = require('joi');
 
 const id = Joi.number();
 const description = Joi.string();
-const score = Joi.string().valid('1', '2', '3', '4', '5');
-const priceQualityRatio = Joi.string().valid('1', '2', '3', '4', '5');
-const facilities = Joi.string().valid('1', '2', '3', '4', '5');
-const location = Joi.string().valid('1', '2', '3', '4', '5');
-const cleaning = Joi.string().valid('1', '2', '3', '4', '5');
-const attentionService = Joi.string().valid('1', '2', '3', '4', '5');
-const comfortable = Joi.string().valid('1', '2', '3', '4', '5');
+const score = Joi.number().valid(1, 2, 3, 4, 5);
+const priceQualityRatio = Joi.number().valid(1, 2, 3, 4, 5);
+const facilities = Joi.number().valid(1, 2, 3, 4, 5);
+const location = Joi.number().valid(1, 2, 3, 4, 5);
+const cleaning = Joi.number().valid(1, 2, 3, 4, 5);
+const attentionService = Joi.number().valid(1, 2, 3, 4, 5);
+const comfortable = Joi.number().valid(1, 2, 3, 4, 5);
 const stayedOn = Joi.string();
+const UserId = Joi.number();
+const isDeleted = Joi.boolean();
+const hotels = Joi.number();
 
 const getReviewSchema = Joi.object({
   id: id.required(),
@@ -25,6 +28,8 @@ const createReviewSchema = Joi.object({
   attentionService: attentionService.required(),
   comfortable: comfortable.required(),
   stayedOn: stayedOn.required(),
+  UserId: UserId.required(),
+  hotels: hotels.required(),
 });
 
 const updateReviewSchema = Joi.object({
@@ -37,6 +42,9 @@ const updateReviewSchema = Joi.object({
   attentionService,
   comfortable,
   stayedOn,
+  UserId,
+  isDeleted,
+  hotels,
 });
 
 module.exports = { createReviewSchema, updateReviewSchema, getReviewSchema };

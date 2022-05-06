@@ -14,7 +14,7 @@ class UserService {
   }
 
   async find() {
-    const allUsers = await models.User.findAll();
+    const allUsers = await models.User.findAll({ include: [models.Hotel, models.Review] });
 
     if (allUsers.length === 0) {
       await this.dbLoadUsers();
@@ -31,14 +31,6 @@ class UserService {
     return user;
   }
 
-  async filter({ prop, value }) {
-    const filteredUsers = await models.User.findAll({
-      order: [[prop, value]],
-    });
-
-    return filteredUsers;
-  }
-
   async delete(id, body) {
     const user = await this.findById(id);
 
@@ -48,7 +40,7 @@ class UserService {
   }
 
   async findById(id) {
-    const user = await models.User.findByPk(id, { include: models.Hotel });
+    const user = await models.User.findByPk(id, { include: [models.Hotel, models.User] });
 
     if (!user) {
       throw boom.notFound('User Not Found');
