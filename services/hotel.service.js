@@ -19,7 +19,7 @@ class HotelService {
     return dbHotel;
   }
 
-  async filter({ prop, value }) {
+  async order({ prop, value }) {
     if (!prop && !value) {
       throw boom.notFound('Query Not Found');
     }
@@ -27,6 +27,23 @@ class HotelService {
       order: [[prop, value]],
     });
     return filteredHotels.slice(0, 10);
+  }
+
+  async filter(body) {
+    const payload = Object.entries(body);
+
+    if (!payload) {
+      throw boom.notFound('Body Not Found');
+    }
+
+    const attributes = payload.map((p) => {
+      const obj = { [p[0]]: p[1] };
+      return obj;
+    });
+
+    const filteredHotels = await models.Hotel.findAll({ where: attributes });
+
+    return filteredHotels;
   }
 
   async findById(id) {

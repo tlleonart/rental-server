@@ -11,32 +11,32 @@ const BookingSchema = {
   },
   checkIn: {
     type: DataTypes.DATE,
-    allowNull: false
+    allowNull: false,
   },
   checkOut: {
     type: DataTypes.DATE,
-    allowNull: false
+    allowNull: false,
   },
   nights: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   pricePerNight: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   payMethod: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   billing: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   isCancelled: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false
+    defaultValue: false,
   },
   createdAt: {
     allowNull: false,
