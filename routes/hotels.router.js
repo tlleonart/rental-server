@@ -53,7 +53,7 @@ router.get(
     try {
       const { id } = req.params;
 
-      const hotel = await service.findOne(id);
+      const hotel = await service.findById(id);
 
       res.json(hotel);
     } catch (error) {

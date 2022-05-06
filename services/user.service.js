@@ -8,7 +8,7 @@ class UserService {
   constructor() {}
 
   async find() {
-    const users = await models.User.findAll();
+    const users = await models.User.findAll({ include: models.Hotel });
 
     if (!users) {
       throw boom.notFound('Users Not Found');
@@ -18,17 +18,18 @@ class UserService {
   }
 
   async findByEmail(email) {
-    const users = await models.User.findOne({
+    const user = await models.User.findOne({
       where: { email },
     });
 
-    return users;
+    return user;
   }
 
   async filter({ prop, value }) {
     const users = await models.User.findAll({
       order: [[prop, value]],
     });
+
     return users;
   }
 
@@ -53,13 +54,16 @@ class UserService {
   async create(body) {
     const hash = await bcrypt.hash(body.password, 10);
 
-    const newUser = await models.User.create({
-      ...body,
-      password: hash,
-      repeatPassword: hash,
+    const newUser = await models.User.create(body);
+
+    const hotels = await models.Hotel.findAll({
+      where: { id: body.hotels },
     });
+
     delete newUser.dataValues.password;
-    delete newUser.dataValues.repeatPassword;
+
+    newUser.addHotels(hotels);
+    console.log(hotels[0].dataValues.id);
     return newUser;
   }
 

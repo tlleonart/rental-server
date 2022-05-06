@@ -9,13 +9,11 @@ const UserSchema = {
     autoIncrement: true,
     type: DataTypes.INTEGER,
   },
-  createdAt: {
+  typePerson: {
+    type: DataTypes.ENUM('natural', 'legal'),
     allowNull: false,
-    field: 'created_at',
-    type: DataTypes.DATE,
-    defaultValue: Sequelize.NOW,
   },
-  name: {
+  firstName: {
     allowNull: false,
     type: DataTypes.STRING,
   },
@@ -23,7 +21,7 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  userName: {
+  organization: {
     allowNull: false,
     type: DataTypes.STRING,
     unique: true,
@@ -32,47 +30,59 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  birthDate: {
+  password: {
     allowNull: false,
     type: DataTypes.STRING,
+  },
+  repeatPass: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  recoveryToken: {
+    field: 'recovery_token',
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
+  role: {
+    allowNull: false,
+    type: DataTypes.ENUM('admin', 'customer', 'owner'),
+    defaultValue: 'customer',
+  },
+  image: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png',
+  },
+  favHotels: {
+    type: DataTypes.ARRAY(DataTypes.JSON),
+  },
+  isSuscribed: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
   },
   isBanned: {
     allowNull: false,
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  password: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
-  repeatPassword: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
-  profilePic: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    defaultValue: 'https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png',
-  },
   isDeleted: {
     allowNull: false,
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  role: {
+  createdAt: {
     allowNull: false,
-    type: DataTypes.STRING,
-    defaultValue: 'customer',
+    field: 'created_at',
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.NOW,
   },
 };
 
 class User extends Model {
-  static associate(models) {
-    this.belongsToMany(models.Hotel, {
-      as: 'hotels',
-      through: models.UserHotel,
-      foreignKey: 'userId',
-      otherKey: 'hotelId',
+  static associate(model) {
+    this.belongsToMany(model.Hotel, {
+      through: 'user_hotel',
     });
     this.belongsToMany(models.Review, {
       as: 'reviews',
