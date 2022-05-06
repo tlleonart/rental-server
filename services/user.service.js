@@ -33,11 +33,11 @@ class UserService {
   }
 
   async filter({ prop, value }) {
-    const users = await models.User.findAll({
+    const filteredUsers = await models.User.findAll({
       order: [[prop, value]],
     });
 
-    return users;
+    return filteredUsers;
   }
 
   async delete(id, body) {
