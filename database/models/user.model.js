@@ -84,12 +84,6 @@ class User extends Model {
     this.belongsToMany(model.Hotel, {
       through: 'user_hotel',
     });
-    this.belongsToMany(model.Review, {
-      as: 'reviews',
-      through: model.UserReview,
-      foreignKey: 'userId',
-      otherKey: 'reviewId',
-    });
   }
 
   static config(sequelize) {

@@ -7,7 +7,7 @@ const lastName = Joi.string();
 const organization = Joi.string();
 const email = Joi.string();
 const password = Joi.string();
-const repeatPass = Joi.string();
+const repeatPass = Joi.ref('password');
 const role = Joi.string().valid('admin', 'customer', 'owner');
 const image = Joi.string();
 const hotels = Joi.array().items(Joi.number());
@@ -23,7 +23,7 @@ const createUserSchema = Joi.object({
   organization,
   email: email.required(),
   password: password.required(),
-  repeatPass: repeatPass.required(),
+  repeatPass,
   image,
   hotels,
 });

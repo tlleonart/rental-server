@@ -1,18 +1,27 @@
+const bcrypt = require('bcrypt');
+
 const boom = require('@hapi/boom');
 
 const { models } = require('../libs/sequelize');
 
+const { users } = require('../api/api.json');
+
 class UserService {
   constructor() {}
 
-  async find() {
-    const users = await models.User.findAll({ include: models.Hotel });
+  async dbLoadUsers() {
+    console.log(users[0]);
+    users.map((u) => this.create(u));
+  }
 
-    if (!users) {
-      throw boom.notFound('Users Not Found');
+  async find() {
+    const allUsers = await models.User.findAll();
+
+    if (allUsers.length === 0) {
+      await this.dbLoadUsers();
     }
 
-    return users;
+    return allUsers;
   }
 
   async findByEmail(email) {
@@ -40,7 +49,7 @@ class UserService {
   }
 
   async findOne(id) {
-    const user = await models.User.findByPk(id);
+    const user = await models.User.findByPk(id, { include: models.Hotel });
 
     if (!user) {
       throw boom.notFound('User Not Found');
@@ -50,14 +59,13 @@ class UserService {
   }
 
   async create(body) {
-    const newUser = await models.User.create(body);
+    const hash = await bcrypt.hash(body.password, 10);
 
-    const hotels = await models.Hotel.findAll({
-      where: { id: body.hotels },
-    });
+    const newUser = await models.User.create({ ...body, password: hash, repeatPass: hash });
+
     delete newUser.dataValues.password;
+    delete newUser.dataValues.repeatPass;
 
-    newUser.addHotels(hotels);
     return newUser;
   }
 
