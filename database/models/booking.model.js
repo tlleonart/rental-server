@@ -47,7 +47,18 @@ const BookingSchema = {
 };
 
 class Booking extends Model {
-  static associate() {}
+  static associate(models) {
+    this.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
+    this.belongsTo(models.Hotel, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
+  }
 
   static config(sequelize) {
     return {
