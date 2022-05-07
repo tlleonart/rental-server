@@ -122,7 +122,8 @@ class Hotel extends Model {
       },
     });
     this.hasMany(models.Review);
-    this.hasOne(models.Booking);
+    this.hasMany(models.Booking);
+    this.hasMany(models.Billing);
   }
 
   static config(sequelize) {

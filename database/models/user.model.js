@@ -83,7 +83,8 @@ class User extends Model {
   static associate(models) {
     this.hasMany(models.Hotel);
     this.hasMany(models.Review);
-    this.hasOne(models.Booking);
+    this.hasMany(models.Booking);
+    this.hasMany(models.Billing);
   }
 
   static config(sequelize) {
