@@ -5,6 +5,7 @@ const hotelsRouter = require('./hotels.router');
 const authRouter = require('./auth.router');
 const reviewsRouter = require('./reviews.router');
 const bookingsRouter = require('./bookings.router');
+const billingsRouter = require('./billings.router');
 
 function routerApi(app) {
   const router = express.Router();
@@ -16,6 +17,7 @@ function routerApi(app) {
   router.use('/auth', authRouter);
   router.use('/reviews', reviewsRouter);
   router.use('/bookings', bookingsRouter);
+  router.use('/billings', billingsRouter);
 }
 
 module.exports = routerApi;

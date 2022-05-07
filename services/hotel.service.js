@@ -20,7 +20,9 @@ class HotelService {
   }
 
   async findById(id) {
-    const hotel = await models.Hotel.findByPk(id, { include: [models.User, models.Review, models.Booking] });
+    const hotel = await models.Hotel.findByPk(id, {
+      include: [models.User, models.Review, models.Booking, models.Billing],
+    });
 
     if (!hotel) {
       throw boom.notFound('Hotel Not Found');

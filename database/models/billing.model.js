@@ -1,35 +1,18 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const BOOKING_TABLE = 'bookings';
+const BILLING_TABLE = 'billings';
 
-const BookingSchema = {
+const BillingSchema = {
   id: {
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
     type: DataTypes.INTEGER,
   },
-  checkIn: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  checkOut: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  nights: {
+  otherCharges: {
     type: DataTypes.INTEGER,
-    allowNull: false,
   },
-  pricePerNight: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  payMethod: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  billing: {
+  total: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
@@ -46,7 +29,7 @@ const BookingSchema = {
   },
 };
 
-class Booking extends Model {
+class Billing extends Model {
   static associate(models) {
     this.belongsTo(models.User, {
       foreignKey: {
@@ -58,17 +41,21 @@ class Booking extends Model {
         allowNull: false,
       },
     });
-    this.hasOne(models.Billing);
+    this.belongsTo(models.Booking, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: BOOKING_TABLE,
-      modelName: 'Booking',
+      tableName: BILLING_TABLE,
+      modelName: 'Billing',
       timestamps: false,
     };
   }
 }
 
-module.exports = { BOOKING_TABLE, BookingSchema, Booking };
+module.exports = { BILLING_TABLE, Billing, BillingSchema };
