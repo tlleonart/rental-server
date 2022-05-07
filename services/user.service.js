@@ -14,7 +14,7 @@ class UserService {
   }
 
   async find() {
-    const allUsers = await models.User.findAll({ include: [models.Hotel, models.Review] });
+    const allUsers = await models.User.findAll();
 
     if (allUsers.length === 0) {
       await this.dbLoadUsers();

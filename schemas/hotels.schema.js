@@ -21,7 +21,7 @@ const barImage = Joi.string();
 const amenitiesImage = Joi.string();
 const otherImage = Joi.string();
 // const image = Joi.array().items(Joi.object());
-const user = Joi.number();
+const UserId = Joi.number();
 
 const getHotelSchema = Joi.object({
   id: id.required(),
@@ -47,7 +47,7 @@ const createHotelSchema = Joi.object({
   barImage: barImage.required(),
   amenitiesImage: amenitiesImage.required(),
   otherImage: otherImage.required(),
-  user,
+  UserId,
 });
 
 const updateHotelSchema = Joi.object({
@@ -70,7 +70,7 @@ const updateHotelSchema = Joi.object({
   barImage,
   amenitiesImage,
   otherImage,
-  user,
+  UserId,
 });
 
 module.exports = { createHotelSchema, updateHotelSchema, getHotelSchema };

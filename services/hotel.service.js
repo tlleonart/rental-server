@@ -10,7 +10,7 @@ class HotelService {
   }
 
   async find() {
-    const dbHotel = await models.Hotel.findAll({ include: [models.User, models.Review] });
+    const dbHotel = await models.Hotel.findAll();
 
     if (dbHotel.length === 0) {
       await this.dbLoad();

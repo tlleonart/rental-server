@@ -5,7 +5,7 @@ class ReviewService {
   constructor() {}
 
   async find() {
-    const reviews = await models.Review.findAll({ include: [models.User, models.Hotel] });
+    const reviews = await models.Review.findAll();
 
     if (!reviews) {
       throw boom.notFound('Reviews Not Found');
