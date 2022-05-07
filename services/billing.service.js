@@ -27,16 +27,15 @@ class BillingService {
   }
 
   async create(body) {
-    const {
-      UserId, HotelId, BookingId, otherCharges,
-    } = body;
+    const { BookingId, otherCharges } = body;
     const booking = await models.Booking.findByPk(BookingId, {
-      attributes: ['nights', 'pricePerNight'],
+      attributes: ['nights', 'pricePerNight', 'UserId', 'HotelId'],
     });
     const total = otherCharges === undefined
       ? booking.dataValues.nights * booking.dataValues.pricePerNight
       : ((booking.dataValues.nights * booking.dataValues.pricePerNight) + otherCharges);
-
+    const { UserId } = booking.dataValues;
+    const { HotelId } = booking.dataValues;
     const newBilling = await models.Billing.create({
       UserId, HotelId, BookingId, otherCharges, total,
     });

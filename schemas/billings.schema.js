@@ -23,9 +23,6 @@ const createBillingSchema = Joi.object({
 const updateBillingSchema = Joi.object({
   otherCharges,
   total,
-  UserId,
-  HotelId,
-  BookingId,
   isCancelled,
 });
 
