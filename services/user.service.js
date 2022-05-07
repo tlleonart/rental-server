@@ -41,7 +41,7 @@ class UserService {
 
   async findById(id) {
     const user = await models.User.findByPk(id, {
-      include: [models.Hotel, models.Review, models.Booking, models.Billing],
+      include: [models.Hotel, models.Review, models.Booking],
     });
 
     if (!user) {

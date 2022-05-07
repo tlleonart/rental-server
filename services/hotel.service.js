@@ -21,7 +21,7 @@ class HotelService {
 
   async findById(id) {
     const hotel = await models.Hotel.findByPk(id, {
-      include: [models.User, models.Review, models.Booking, models.Billing],
+      include: [models.User, models.Review, models.Booking],
     });
 
     if (!hotel) {
