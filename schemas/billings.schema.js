@@ -15,8 +15,8 @@ const getBillingSchema = Joi.object({
 const createBillingSchema = Joi.object({
   otherCharges,
   total,
-  UserId: UserId.required(),
-  HotelId: HotelId.required(),
+  UserId,
+  HotelId,
   BookingId: BookingId.required(),
 });
 
