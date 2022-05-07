@@ -19,35 +19,8 @@ class HotelService {
     return dbHotel;
   }
 
-  async order({ prop, value }) {
-    if (!prop && !value) {
-      throw boom.notFound('Query Not Found');
-    }
-    const filteredHotels = await models.Hotel.findAll({
-      order: [[prop, value]],
-    });
-    return filteredHotels.slice(0, 10);
-  }
-
-  async filter(body) {
-    const payload = Object.entries(body);
-
-    if (!payload) {
-      throw boom.notFound('Body Not Found');
-    }
-
-    const attributes = payload.map((p) => {
-      const obj = { [p[0]]: p[1] };
-      return obj;
-    });
-
-    const filteredHotels = await models.Hotel.findAll({ where: attributes });
-
-    return filteredHotels;
-  }
-
   async findById(id) {
-    const hotel = await models.Hotel.findByPk(id, { include: [models.User, models.Review] });
+    const hotel = await models.Hotel.findByPk(id, { include: [models.User, models.Review, models.Booking] });
 
     if (!hotel) {
       throw boom.notFound('Hotel Not Found');
@@ -65,6 +38,33 @@ class HotelService {
     }
 
     return hotel;
+  }
+
+  async order({ prop, value }) {
+    if (!prop && !value) {
+      throw boom.notFound('Query Not Found');
+    }
+    const orderedHotels = await models.Hotel.findAll({
+      order: [[prop, value]],
+    });
+    return orderedHotels.slice(0, 10);
+  }
+
+  async filter(body) {
+    const payload = Object.entries(body);
+
+    if (!payload) {
+      throw boom.notFound('Body Not Found');
+    }
+
+    const attributes = payload.map((p) => {
+      const obj = { [p[0]]: p[1] };
+      return obj;
+    });
+
+    const filteredHotels = await models.Hotel.findAll({ where: attributes });
+
+    return filteredHotels;
   }
 
   async create(body) {

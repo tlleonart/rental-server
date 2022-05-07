@@ -4,10 +4,12 @@ const id = Joi.number();
 const checkIn = Joi.date();
 const checkOut = Joi.date();
 const nights = Joi.number();
-const pricePerNight = Joi.numbre();
+const pricePerNight = Joi.number();
 const payMethod = Joi.string();
-const billing = Joi.string();
+const billing = Joi.number();
 const isCancelled = Joi.boolean();
+const UserId = Joi.number();
+const HotelId = Joi.number();
 
 const getBookingSchema = Joi.object({
   id: id.required(),
@@ -20,6 +22,8 @@ const createBookingSchema = Joi.object({
   pricePerNight: pricePerNight.required(),
   payMethod: payMethod.required(),
   billing: billing.required(),
+  UserId: UserId.required(),
+  HotelId: HotelId.required(),
 });
 
 const updateBookingSchema = Joi.object({
@@ -30,6 +34,8 @@ const updateBookingSchema = Joi.object({
   payMethod,
   billing,
   isCancelled,
+  UserId,
+  HotelId,
 });
 
 module.exports = { createBookingSchema, updateBookingSchema, getBookingSchema };

@@ -15,6 +15,7 @@ function setupModels(sequelize) {
   User.associate(sequelize.models);
   Hotel.associate(sequelize.models);
   Review.associate(sequelize.models);
+  Booking.associate(sequelize.models);
 }
 
 module.exports = setupModels;
