@@ -70,6 +70,11 @@ class Review extends Model {
         allowNull: false,
       },
     });
+    this.belongsTo(models.Booking, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
   }
 
   static config(sequelize) {

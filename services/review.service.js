@@ -15,7 +15,7 @@ class ReviewService {
   }
 
   async findById(id) {
-    const review = await models.Review.findByPk(id, { include: [models.User, models.Hotel] });
+    const review = await models.Review.findByPk(id, { include: [models.Booking] });
 
     if (!review) {
       throw boom.notFound('Review Not Found');
@@ -25,7 +25,9 @@ class ReviewService {
   }
 
   async create(body) {
-    const newReview = await models.Review.create(body);
+    const booking = await models.Booking.findByPk(body.BookingId);
+    const { UserId, HotelId } = booking.dataValues;
+    const newReview = await models.Review.create(UserId, HotelId, body);
 
     return newReview;
   }
