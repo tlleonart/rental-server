@@ -75,7 +75,7 @@ class AuthService {
     try {
       const payload = jwt.verify(token, config.jwtSecret);
 
-      const user = await service.findOne(payload.sub);
+      const user = await service.findById(payload.sub);
 
       if (user.recoveryToken !== token) {
         throw boom.unauthorized();
@@ -94,7 +94,6 @@ class AuthService {
   async sendMail(infoMail) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.mailtrap.io',
-      secure: true,
       port: 2525,
       auth: {
         user: config.smtpEmail,

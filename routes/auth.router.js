@@ -24,7 +24,6 @@ router.post(
 
 router.post(
   '/recovery',
-  passport.authenticate('local', { session: false }),
   async (req, res, next) => {
     try {
       const { email } = req.body;
@@ -40,7 +39,6 @@ router.post(
 
 router.post(
   '/change-password',
-  passport.authenticate('local', { session: false }),
   async (req, res, next) => {
     try {
       const { token, newPassword } = req.body;
