@@ -29,10 +29,6 @@ const BookingSchema = {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  billing: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
   isCancelled: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
