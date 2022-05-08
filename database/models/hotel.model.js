@@ -121,6 +121,11 @@ class Hotel extends Model {
         allowNull: false,
       },
     });
+    this.belongsTo(models.City, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
     this.hasMany(models.Review);
     this.hasMany(models.Booking);
     this.hasMany(models.Billing);

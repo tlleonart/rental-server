@@ -55,6 +55,7 @@ class Booking extends Model {
       },
     });
     this.hasOne(models.Billing);
+    this.hasOne(models.Review);
   }
 
   static config(sequelize) {
