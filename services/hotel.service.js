@@ -1,4 +1,5 @@
 const boom = require('@hapi/boom');
+const { Op } = require('sequelize');
 const { models } = require('../libs/sequelize');
 const { hotels } = require('../api/api.json');
 
@@ -60,7 +61,17 @@ class HotelService {
     }
 
     const attributes = payload.map((p) => {
-      const obj = { [p[0]]: p[1] };
+      if (!isNaN(p[1])) {
+        const number = {
+          [p[0]]: {
+            [Op.gte]: p[1],
+          },
+        };
+        return number;
+      }
+      const obj = {
+        [p[0]]: { [Op.iLike]: `%${p[1]}%` },
+      };
       return obj;
     });
 
