@@ -10,7 +10,7 @@ const CountrySchema = {
     type: DataTypes.INTEGER,
   },
   name: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   createdAt: {
@@ -23,6 +23,7 @@ const CountrySchema = {
 
 class Country extends Model {
   static associate(models) {
+    this.hasMany(models.Hotel);
     this.hasMany(models.City);
   }
 

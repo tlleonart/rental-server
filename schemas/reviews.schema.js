@@ -12,8 +12,8 @@ const comfortable = Joi.number().valid(1, 2, 3, 4, 5);
 const stayedOn = Joi.string();
 const BookingId = Joi.number();
 const isDeleted = Joi.boolean();
-const UserId = Joi.string();
-const HotelId = Joi.string();
+const UserId = Joi.number();
+const HotelId = Joi.number();
 
 const getReviewSchema = Joi.object({
   id: id.required(),
@@ -29,7 +29,7 @@ const createReviewSchema = Joi.object({
   attentionService: attentionService.required(),
   comfortable: comfortable.required(),
   stayedOn: stayedOn.required(),
-  BookingId: BookingId.required(),
+  BookingId,
   UserId,
   HotelId,
 });

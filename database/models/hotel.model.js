@@ -25,14 +25,14 @@ const HotelSchema = {
     allowNull: false,
     type: DataTypes.INTEGER,
   },
-  country: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
-  city: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
+  // country: {
+  //   allowNull: false,
+  //   type: DataTypes.STRING,
+  // },
+  // city: {
+  //   allowNull: false,
+  //   type: DataTypes.STRING,
+  // },
   address: {
     allowNull: false,
     type: DataTypes.STRING,
@@ -117,6 +117,11 @@ const HotelSchema = {
 class Hotel extends Model {
   static associate(models) {
     this.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
+    this.belongsTo(models.Country, {
       foreignKey: {
         allowNull: false,
       },
