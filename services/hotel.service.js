@@ -11,7 +11,7 @@ class HotelService {
   }
 
   async find() {
-    const dbHotel = await models.Hotel.findAll();
+    const dbHotel = await models.Hotel.findAll({ include: [models.Country, models.City] });
 
     if (dbHotel.length === 0) {
       await this.dbLoad();
@@ -22,7 +22,7 @@ class HotelService {
 
   async findById(id) {
     const hotel = await models.Hotel.findByPk(id, {
-      include: [models.User, models.Review, models.Booking],
+      include: [models.Country, models.City, models.User, models.Booking, models.Review],
     });
 
     if (!hotel) {
@@ -82,10 +82,6 @@ class HotelService {
 
   async create(body) {
     const newHotel = await models.Hotel.create(body);
-    // const userOwner = await models.User.findAll({
-    //   where: { id: body.user },
-    // });
-    // newHotel.addUsers(userOwner);
 
     return newHotel;
   }

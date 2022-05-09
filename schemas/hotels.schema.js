@@ -5,8 +5,8 @@ const name = Joi.string();
 const description = Joi.string();
 const stars = Joi.number().valid(1, 2, 3, 4, 5);
 const price = Joi.number();
-const country = Joi.string();
-const city = Joi.string();
+const CountryId = Joi.number();
+const CityId = Joi.number();
 const address = Joi.string();
 const latitude = Joi.number();
 const longitude = Joi.number();
@@ -20,7 +20,6 @@ const roomImage = Joi.string();
 const barImage = Joi.string();
 const amenitiesImage = Joi.string();
 const otherImage = Joi.string();
-// const image = Joi.array().items(Joi.object());
 const UserId = Joi.number();
 
 const getHotelSchema = Joi.object({
@@ -32,8 +31,8 @@ const createHotelSchema = Joi.object({
   description: description.required(),
   stars,
   price: price.required(),
-  country: country.required(),
-  city: city.required(),
+  CountryId,
+  CityId,
   address: address.required(),
   latitude: latitude.required(),
   longitude: longitude.required(),
@@ -55,8 +54,8 @@ const updateHotelSchema = Joi.object({
   description,
   stars,
   price,
-  country,
-  city,
+  CountryId,
+  CityId,
   address,
   latitude,
   longitude,
