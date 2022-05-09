@@ -118,7 +118,7 @@ class Hotel extends Model {
   static associate(models) {
     this.belongsTo(models.User, {
       foreignKey: {
-        allowNull: false,
+        allowNull: true,
       },
     });
     this.belongsTo(models.Country, {
