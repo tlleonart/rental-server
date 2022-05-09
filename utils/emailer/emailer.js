@@ -18,8 +18,8 @@ const sendMail = async (user) => {
   const info = await transporter.sendMail({
     from: '"Rental" <rental@rental.com>',
     to: `${user.email}`,
-    subject: `Bienvenido a Rental App ${user.name} ${user.lastName}!`,
-    html: `<h4>Hola ${user.name}, te damos la bienvenida a la red más amplia de alojamientos de la región.</h4>
+    subject: `Bienvenido a Rental App ${user.organization ? user.organization : user.firstName}!`,
+    html: `<h4>Hola ${user.organization ? user.organization : user.firstName}, te damos la bienvenida a la red más amplia de alojamientos de la región.</h4>
     <p>En Rental encontrarás una variada gama de hospedajes para que tu viaje sea una experiencia única.</p>
     <p>Te esperamos en tu próxima reserva!</p>`,
   });
