@@ -23,6 +23,7 @@ const CountrySchema = {
 
 class Country extends Model {
   static associate(models) {
+    this.hasMany(models.Hotel);
     this.hasMany(models.City);
   }
 
