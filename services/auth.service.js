@@ -55,7 +55,7 @@ class AuthService {
 
     const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '15min' });
 
-    const link = `http://myFrontend.com/recovery?token=${token}`;
+    const link = `http://localhost:3000/changePassword?token=${token}`;
 
     await service.update(user.id, { recoveryToken: token });
 
@@ -75,7 +75,7 @@ class AuthService {
     try {
       const payload = jwt.verify(token, config.jwtSecret);
 
-      const user = await service.findOne(payload.sub);
+      const user = await service.findById(payload.sub);
 
       if (user.recoveryToken !== token) {
         throw boom.unauthorized();
@@ -94,7 +94,6 @@ class AuthService {
   async sendMail(infoMail) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.mailtrap.io',
-      secure: true,
       port: 2525,
       auth: {
         user: config.smtpEmail,

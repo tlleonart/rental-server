@@ -1,14 +1,21 @@
 const boom = require('@hapi/boom');
+
 const { models } = require('../libs/sequelize');
+
+const { countries } = require('../api/api.json');
 
 class CountryService {
   constructor() {}
 
+  async dbLoadCountries() {
+    countries.map((c) => this.create(c));
+  }
+
   async find() {
     const allCountries = await models.Country.findAll();
 
-    if (!allCountries) {
-      throw boom.notFound('Countries Not Found');
+    if (allCountries.length === 0) {
+      await this.dbLoadCountries();
     }
 
     return allCountries;
