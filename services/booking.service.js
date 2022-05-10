@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
+const nodemailer = require('nodemailer');
 const { models } = require('../libs/sequelize');
+const { config } = require('../config/config');
 
 class BookingService {
   constructor() {}
@@ -28,6 +30,18 @@ class BookingService {
 
   async create(body) {
     const newBooking = await models.Booking.create(body);
+
+    const mail = {
+      from: 'bookings@rental.com',
+      to: 'user@rental.com',
+      subject: 'Felicitaciones, tu reserva esta confirmada!',
+      html: `<h4>Datos de tu reserva (id:${newBooking.id})</h4>
+      <p>Check In: ${newBooking.checkIn}</p>
+      <p>Check Out: ${newBooking.checkOut}</p>
+      <p>Te esperamos en tu próxima reserva!</p>`,
+    };
+
+    await this.sendMail(mail);
 
     return newBooking;
   }
@@ -73,6 +87,21 @@ class BookingService {
     const updatedBooking = await booking.update(body);
 
     return updatedBooking;
+  }
+
+  async sendMail(infoMail) {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.mailtrap.io',
+      port: 2525,
+      auth: {
+        user: config.smtpEmail,
+        pass: config.smtpPassword,
+      },
+    });
+
+    await transporter.sendMail(infoMail);
+
+    return { message: 'New User Mail Sent' };
   }
 }
 
