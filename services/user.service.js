@@ -69,7 +69,7 @@ class UserService {
       <a href='${link}'>${link}</a>`,
     };
 
-    await this.sendMail(mail);
+    // await this.sendMail(mail);
 
     return newUser;
   }

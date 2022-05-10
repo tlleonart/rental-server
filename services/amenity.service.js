@@ -22,9 +22,7 @@ class AmenityService {
   }
 
   async findById(id) {
-    const amenity = await models.Amenity.findByPk(id, {
-      include: [models.Hotel],
-    });
+    const amenity = await models.Amenity.findByPk(id);
 
     if (!amenity) {
       throw boom.notFound('Amenity Not Found');
