@@ -1,7 +1,5 @@
 const boom = require ('@hapi/boom')
-
 const {models} = require ('../libs/sequelize')
-
 const {suscriptors} = require ('../api/api.json')
 
 class SuscriptorService {
@@ -55,13 +53,6 @@ class SuscriptorService {
     const updatedSuscriptor = await suscriptor.update (body)
 
     return updatedSuscriptor
-  }
-
-  async delete (id, body) {
-    const suscriptor = await this.findById (id)
-    const suscriptorDeleted = await suscriptor.update (body)
-
-    return suscriptorDeleted
   }
 }
 
