@@ -22,7 +22,6 @@ function setupModels(sequelize) {
   City.associate(sequelize.models);
   User.associate(sequelize.models);
   Hotel.associate(sequelize.models);
-  Amenity.associate(sequelize.models);
   Booking.associate(sequelize.models);
   Billing.associate(sequelize.models);
   Review.associate(sequelize.models);
