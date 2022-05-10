@@ -22,6 +22,19 @@ router.post(
   },
 );
 
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile'] }),
+);
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/');
+  },
+);
+
 router.post(
   '/recovery',
   async (req, res, next) => {
