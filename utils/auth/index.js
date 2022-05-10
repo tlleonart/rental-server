@@ -11,3 +11,11 @@ passport.use(LocalStrategy);
 passport.use(JwtStrategy);
 
 passport.use(GoogleStrategy);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});

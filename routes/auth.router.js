@@ -30,12 +30,8 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
-  async (req, res, next) => {
-    try {
-      res.redirect('/');
-    } catch (error) {
-      next(error);
-    }
+  (req, res) => {
+    res.redirect('/');
   },
 );
 

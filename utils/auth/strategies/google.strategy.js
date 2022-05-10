@@ -11,7 +11,7 @@ const GoogleStrategy = new Strategy(
     callbackURL: config.googleCallbackUrl,
   },
   ((accessToken, refreshToken, profile, done) => {
-    models.User.findOrCreate({ googleId: profile.id }, (err, user) => done(err, user));
+    done(null, profile);
   }),
 );
 
