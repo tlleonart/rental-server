@@ -9,6 +9,7 @@ const bookingsRouter = require('./bookings.router');
 const billingsRouter = require('./billings.router');
 const countriesRouter = require('./countries.router');
 const citiesRouter = require('./cities.router');
+const suscriptorsRouter = require('./suscriptors.router');
 
 function routerApi(app) {
   const router = express.Router();
@@ -24,6 +25,7 @@ function routerApi(app) {
   router.use('/billings', billingsRouter);
   router.use('/countries', countriesRouter);
   router.use('/cities', citiesRouter);
+  router.use('/suscriptors', suscriptorsRouter);
 }
 
 module.exports = routerApi;
