@@ -1,9 +1,8 @@
 const bcrypt = require('bcrypt');
-
 const boom = require('@hapi/boom');
-
+const nodemailer = require('nodemailer');
+const { config } = require('../config/config');
 const { models } = require('../libs/sequelize');
-
 const { users } = require('../api/api.json');
 
 class UserService {
@@ -59,6 +58,19 @@ class UserService {
     delete newUser.dataValues.password;
     delete newUser.dataValues.repeatPass;
 
+    const link = 'https://rental-app-client.netlify.app/';
+    const mail = {
+      from: 'rental@rental.com',
+      to: `${newUser.email}`,
+      subject: `Bienvenido a Rental App ${newUser.organization ? newUser.organization : newUser.firstName}!`,
+      html: `<h4>Hola ${newUser.organization ? newUser.organization : newUser.firstName}, te damos la bienvenida a la red más amplia de alojamientos de la región.</h4>
+      <p>En Rental encontrarás una variada gama de hospedajes para que tu viaje sea una experiencia única.</p>
+      <p>Te esperamos en tu próxima reserva!</p>
+      <a href='${link}'>${link}</a>`,
+    };
+
+    // await this.sendMail(mail);
+
     return newUser;
   }
 
@@ -72,6 +84,21 @@ class UserService {
     const updatedUser = await user.update(body);
 
     return updatedUser;
+  }
+
+  async sendMail(infoMail) {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.mailtrap.io',
+      port: 2525,
+      auth: {
+        user: config.smtpEmail,
+        pass: config.smtpPassword,
+      },
+    });
+
+    await transporter.sendMail(infoMail);
+
+    return { message: 'New User Mail Sent' };
   }
 }
 

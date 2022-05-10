@@ -22,7 +22,8 @@ class HotelService {
 
   async findById(id) {
     const hotel = await models.Hotel.findByPk(id, {
-      include: [models.Country, models.City, models.User, models.Booking, models.Review],
+      include: [models.Country, models.City, models.User,
+        models.Booking, models.Review],
     });
 
     if (!hotel) {
@@ -62,6 +63,30 @@ class HotelService {
 
     const attributes = payload.map((p) => {
       if (!isNaN(p[1])) {
+        if (p[0] === 'CountryId') {
+          const CountryId = {
+            [p[0]]: {
+              [Op.eq]: p[1],
+            },
+          };
+          return CountryId;
+        }
+        if (p[0] === 'CityId') {
+          const CityId = {
+            [p[0]]: {
+              [Op.eq]: p[1],
+            },
+          };
+          return CityId;
+        }
+        if (p[0] === 'price') {
+          const price = {
+            [p[0]]: {
+              [Op.lte]: p[1],
+            },
+          };
+          return price;
+        }
         const number = {
           [p[0]]: {
             [Op.gte]: p[1],
@@ -75,7 +100,10 @@ class HotelService {
       return obj;
     });
 
-    const filteredHotels = await models.Hotel.findAll({ where: attributes });
+    const filteredHotels = await models.Hotel.findAll({
+      include: [models.Country, models.City],
+      where: attributes,
+    });
 
     return filteredHotels;
   }
