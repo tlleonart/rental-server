@@ -134,6 +134,7 @@ class Hotel extends Model {
     this.hasMany(models.Review);
     this.hasMany(models.Booking);
     this.hasMany(models.Billing);
+    this.hasMany(models.Amenity);
   }
 
   static config(sequelize) {

@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const FACILITY_TABLE = 'facilities';
+const AMENITY_TABLE = 'amenities';
 
-const FacilitySchema = {
+const AmenitySchema = {
   id: {
     allowNull: false,
     primaryKey: true,
@@ -21,17 +21,23 @@ const FacilitySchema = {
   },
 };
 
-class Facility extends Model {
-  static associate() {}
+class Amenity extends Model {
+  static associate(models) {
+    this.belongsTo(models.Hotel, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
+  }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: FACILITY_TABLE,
-      modelName: 'Facility',
+      tableName: AMENITY_TABLE,
+      modelName: 'Amenity',
       timestamps: false,
     };
   }
 }
 
-module.exports = { FACILITY_TABLE, FacilitySchema, Facility };
+module.exports = { AMENITY_TABLE, AmenitySchema, Amenity };
