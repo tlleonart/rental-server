@@ -6,8 +6,6 @@ const { getUserSchema, createUserSchema, updateUserSchema } = require('../schema
 
 const UserService = require('../services/user.service');
 
-const emailer = require('../utils/emailer/emailer');
-
 const router = express.Router();
 
 const service = new UserService();
@@ -76,8 +74,6 @@ router.post(
       const { body } = req;
 
       const newUser = await service.create(body);
-
-      emailer.sendMail(newUser);
 
       res.json(newUser);
     } catch (error) {
