@@ -56,8 +56,6 @@ router.post(
       const { body } = req;
       const newSuscriptor = await service.create(body);
 
-      emailer.sendMail(newSuscriptor);
-
       res.json(newSuscriptor);
     } catch (error) {
       next(error);

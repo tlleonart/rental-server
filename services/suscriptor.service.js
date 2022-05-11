@@ -38,7 +38,7 @@ class SuscriptorService {
   }
 
   async create(mail) {
-    const newSuscriptor = await models.Suscriptor.create({ mail });
+    const newSuscriptor = await models.Suscriptor.create(mail);
 
     return newSuscriptor;
   }
