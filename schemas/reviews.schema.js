@@ -21,7 +21,7 @@ const getReviewSchema = Joi.object({
 
 const createReviewSchema = Joi.object({
   description: description.required(),
-  score: score.required(),
+  score,
   priceQualityRatio: priceQualityRatio.required(),
   facilities: facilities.required(),
   location: location.required(),

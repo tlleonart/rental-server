@@ -15,7 +15,7 @@ const ReviewSchema = {
   },
   score: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   priceQualityRatio: {
     allowNull: false,
