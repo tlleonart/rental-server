@@ -2,9 +2,6 @@ const { Strategy } = require('passport-google-oauth20');
 
 const passport = require('passport');
 
-const { where } = require('sequelize/types');
-const { models } = require('../../../libs/sequelize');
-
 const { config } = require('../../../config/config');
 
 const AuthService = require('../../../services/auth.service');
@@ -39,15 +36,7 @@ const GoogleStrategy = new Strategy(
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
-      const user = await userService.findByEmail(profile.emails[0].value);
-
-      if (user) {
-        const userId = await models.User.findByPk({ where: { email: profile.emails[0].value } });
-
-        done(null, profile);
-      } else {
-        console.log('Not Exist');
-      }
+      console.log('TODO');
     } catch (error) {
       done(error, false);
     }
