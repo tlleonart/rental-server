@@ -8,7 +8,7 @@ class CityService {
   constructor() {}
 
   async dbLoadCities() {
-    cities.map((c) => this.create(c));
+    await cities.map((c) => this.create(c));
   }
 
   async find() {
