@@ -1,3 +1,4 @@
+const { type } = require('express/lib/response');
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const HOTEL_TABLE = 'hotels';
@@ -96,6 +97,10 @@ const HotelSchema = {
     defaultValue: 'https://t-cf.bstatic.com/xdata/images/hotel/max1024x768/111161887.jpg?k=f40f9e8069050aadccfca8f6c6de541ef2f3dda9a203ac0052290703d49fed98&o=&hp=1'
     ,
   },
+  amenities: {
+    allowNull: false,
+    type: DataTypes.ARRAY(DataTypes.STRING),
+  },
   isBanned: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
@@ -134,7 +139,6 @@ class Hotel extends Model {
     this.hasMany(models.Review);
     this.hasMany(models.Booking);
     this.hasMany(models.Billing);
-    this.hasMany(models.Amenity);
   }
 
   static config(sequelize) {

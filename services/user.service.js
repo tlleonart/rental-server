@@ -58,7 +58,6 @@ class UserService {
     delete newUser.dataValues.password;
     delete newUser.dataValues.repeatPass;
 
-    const link = 'https://rental-app-client.netlify.app/';
     const mail = {
       from: 'rental@rental.com',
       to: `${newUser.email}`,
@@ -66,10 +65,10 @@ class UserService {
       html: `<h4>Hola ${newUser.organization ? newUser.organization : newUser.firstName}, te damos la bienvenida a la red más amplia de alojamientos de la región.</h4>
       <p>En Rental encontrarás una variada gama de hospedajes para que tu viaje sea una experiencia única.</p>
       <p>Te esperamos en tu próxima reserva!</p>
-      <a href='${link}'>${link}</a>`,
+      <a href='https://rental-app-client.netlify.app/'>Ir a Rental-App</a>`,
     };
 
-    await this.sendMail(mail);
+    // await this.sendMail(mail);
 
     return newUser;
   }

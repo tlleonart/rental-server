@@ -22,13 +22,7 @@ const AmenitySchema = {
 };
 
 class Amenity extends Model {
-  static associate(models) {
-    this.belongsTo(models.Hotel, {
-      foreignKey: {
-        allowNull: false,
-      },
-    });
-  }
+  static associate() {}
 
   static config(sequelize) {
     return {
