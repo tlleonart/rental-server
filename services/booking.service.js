@@ -30,15 +30,18 @@ class BookingService {
 
   async create(body) {
     const newBooking = await models.Booking.create(body);
+    const userData = await models.User.findByPk(body.UserId);
+    const hotelData = await models.Hotel.findByPk(body.HotelId);
 
     const mail = {
       from: 'bookings@rental.com',
       to: 'user@rental.com',
-      subject: 'Felicitaciones, tu reserva esta confirmada!',
-      html: `<h4>Datos de tu reserva (id:${newBooking.id})</h4>
+      subject: `Felicitaciones ${userData.dataValues.organization ? userData.dataValues.organization : userData.dataValues.firstName}, tu reserva esta confirmada!`,
+      html: `<h4>Hola ${userData.dataValues.organization ? userData.dataValues.organization : userData.dataValues.firstName}, tu reserva en ${hotelData.dataValues.name} está confirmada.</h4>
       <p>Check In: ${newBooking.checkIn}</p>
       <p>Check Out: ${newBooking.checkOut}</p>
-      <p>Te esperamos en tu próxima reserva!</p>`,
+      <p>Muchas gracias!</p>
+      <a href='https://rental-app-client.netlify.app/profile'>Ir a tus reservas</a>`,
     };
 
     await this.sendMail(mail);
