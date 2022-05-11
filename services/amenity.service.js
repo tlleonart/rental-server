@@ -8,7 +8,7 @@ class AmenityService {
   constructor() {}
 
   async dbLoadAmenities() {
-    amenities.map((a) => this.create(a));
+    await amenities.map((a) => this.create(a));
   }
 
   async find() {

@@ -8,7 +8,7 @@ class CountryService {
   constructor() {}
 
   async dbLoadCountries() {
-    countries.map((c) => this.create(c));
+    await countries.map((c) => this.create(c));
   }
 
   async find() {
