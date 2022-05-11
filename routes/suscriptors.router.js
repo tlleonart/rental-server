@@ -2,7 +2,7 @@ const express = require('express');
 const validatorHandler = require('../middlewares/validator.handler');
 const { createSuscriptorSchema, updateSuscriptorSchema, getSuscriptorSchema } = require('../schemas/suscriptors.schema');
 const SuscriptorService = require('../services/suscriptor.service');
-// const emailer = require('../utils/emailer/emailer')
+
 const router = express.Router();
 const service = new SuscriptorService();
 
