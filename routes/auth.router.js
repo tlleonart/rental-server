@@ -22,6 +22,16 @@ router.post(
   },
 );
 
+router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google'),
+  async (req, res, next) => {
+    res.send('Login Success');
+  },
+);
+
 router.post(
   '/recovery',
   async (req, res, next) => {
