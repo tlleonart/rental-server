@@ -7,7 +7,7 @@ class HotelService {
   constructor() {}
 
   async dbLoad() {
-    hotels.map((h) => this.create(h));
+    hotels.map(async (h) => await this.create(h));
   }
 
   async find() {

@@ -1,59 +1,59 @@
-const boom = require ('@hapi/boom')
-const {models} = require ('../libs/sequelize')
-const {suscriptors} = require ('../api/api.json')
+const boom = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
+const { suscriptors } = require('../api/api.json');
 
 class SuscriptorService {
-  constructor () {}
+  constructor() {}
 
-  async dbLoadSuscriptors () {
-    suscriptors.map (s => this.create (s))
+  async dbLoadSuscriptors() {
+    suscriptors.map(async (s) => await this.create(s));
   }
 
-  async find () {
-    const allSuscriptors = await models.Suscriptor.findAll ()
+  async find() {
+    const allSuscriptors = await models.Suscriptor.findAll();
 
     if (allSuscriptors.length === 0) {
-      await this.dbLoadSuscriptors ()
+      await this.dbLoadSuscriptors();
     }
 
-    return allSuscriptors
+    return allSuscriptors;
   }
 
-  async findByMail (mail) {
-    const suscriptor = await models.Suscriptor.findOne ({
-      where: {mail}
-    })
+  async findByMail(mail) {
+    const suscriptor = await models.Suscriptor.findOne({
+      where: { mail },
+    });
 
-    return suscriptor
+    return suscriptor;
   }
 
-  async findById (id) {
-    const suscriptor = await models.Suscriptor.findByPk (id)
+  async findById(id) {
+    const suscriptor = await models.Suscriptor.findByPk(id);
 
     if (!suscriptor) {
-      throw boom.notFound ('User Not Found')
+      throw boom.notFound('User Not Found');
     }
 
-    return suscriptor
+    return suscriptor;
   }
 
-  async create (mail) {
-    const newSuscriptor = await models.Suscriptor.create ({mail})
+  async create(mail) {
+    const newSuscriptor = await models.Suscriptor.create({ mail });
 
-    return newSuscriptor
+    return newSuscriptor;
   }
 
-  async update (id, body) {
-    const suscriptor = await this.findById (id)
+  async update(id, body) {
+    const suscriptor = await this.findById(id);
 
     if (!suscriptor) {
-      throw boom.notFound ('User Not Found')
+      throw boom.notFound('User Not Found');
     }
 
-    const updatedSuscriptor = await suscriptor.update (body)
+    const updatedSuscriptor = await suscriptor.update(body);
 
-    return updatedSuscriptor
+    return updatedSuscriptor;
   }
 }
 
-module.exports = SuscriptorService
+module.exports = SuscriptorService;
