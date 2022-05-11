@@ -6,7 +6,7 @@ class SuscriptorService {
   constructor() {}
 
   async dbLoadSuscriptors() {
-    suscriptors.map(async (s) => await this.create(s));
+    suscriptors.map((s) => this.create(s));
   }
 
   async find() {
