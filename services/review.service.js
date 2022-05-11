@@ -25,7 +25,9 @@ class ReviewService {
   }
 
   async create(body) {
-    const { BookingId } = body;
+    const {
+      BookingId, priceQualityRatio, facilities, location, cleaning, attentionService, comfortable,
+    } = body;
 
     const booking = await models.Booking.findByPk(BookingId, {
       attributes: ['id', 'UserId', 'HotelId'],
@@ -35,7 +37,12 @@ class ReviewService {
 
     const { HotelId } = booking.dataValues;
 
-    const newReview = await models.Review.create({ ...body, UserId, HotelId });
+    const score = (priceQualityRatio + facilities + location + cleaning
+      + attentionService + comfortable) / 6;
+
+    const newReview = await models.Review.create({
+      ...body, UserId, HotelId, score,
+    });
 
     return newReview;
   }
