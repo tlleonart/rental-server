@@ -9,7 +9,7 @@ class UserService {
   constructor() {}
 
   async dbLoadUsers() {
-    await users.map((u) => this.create(u));
+    users.map((u) => this.create(u));
   }
 
   async find() {
