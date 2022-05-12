@@ -31,7 +31,6 @@ class BookingService {
 
   async create(body) {
     const hotelData = await models.Hotel.findByPk(body.HotelId);
-    console.log(hotelData.dataValues);
     const { mainImage, name } = hotelData.dataValues;
     const newBooking = await models.Booking.create({ ...body, mainImage, hotelName: name });
     const {
