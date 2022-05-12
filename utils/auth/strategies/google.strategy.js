@@ -32,8 +32,10 @@ const GoogleStrategy = new Strategy(
           firstName: googleUser.name,
           lastName: googleUser.given_name,
           email: googleUser.email,
+          password: googleUser.sub,
+          repeatPass: googleUser.sub,
         };
-        await models.User.create();
+        user = await models.User.create(user);
       } else {
         user = dbUser;
       }
