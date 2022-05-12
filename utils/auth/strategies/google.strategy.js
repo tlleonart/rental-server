@@ -1,32 +1,16 @@
-const { Strategy } = require('passport-google-oauth20');
+/* eslint-disable no-underscore-dangle */
 
 const passport = require('passport');
+
+const { Strategy } = require('passport-google-oauth20');
+
+const { models } = require('../../../libs/sequelize');
 
 const { config } = require('../../../config/config');
 
 const AuthService = require('../../../services/auth.service');
 
-const UserService = require('../../../services/user.service');
-
 const service = new AuthService();
-
-const userService = new UserService();
-
-// const LocalStrategy = new Strategy(
-//   {
-//     usernameField: 'email',
-//     passwordField: 'password',
-//   },
-//   async (email, password, done) => {
-//     try {
-//       const user = await service.getUser(email, password);
-
-//       done(null, user);
-//     } catch (error) {
-//       done(error, false);
-//     }
-//   },
-// );
 
 const GoogleStrategy = new Strategy(
   {
@@ -35,16 +19,34 @@ const GoogleStrategy = new Strategy(
     callbackURL: config.googleCallbackUrl,
   },
   async (accessToken, refreshToken, profile, done) => {
+    const googleUser = profile._json;
+
+    let user = {};
     try {
-      console.log('TODO');
+      const dbUser = await models.User.findOne({ where: { email: googleUser.email } });
+
+      if (!dbUser) {
+        // create
+        user = {
+          typePerson: 'natural',
+          firstName: googleUser.name,
+          lastName: googleUser.given_name,
+          email: googleUser.email,
+        };
+        await models.User.create();
+      } else {
+        user = dbUser;
+      }
+
+      done(null, user);
     } catch (error) {
-      done(error, false);
+      done(error);
     }
   },
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
 });
 
 passport.deserializeUser((user, done) => {

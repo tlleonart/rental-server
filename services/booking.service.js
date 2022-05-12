@@ -30,13 +30,15 @@ class BookingService {
   }
 
   async create(body) {
-    const newBooking = await models.Booking.create(body);
+    const hotelData = await models.Hotel.findByPk(body.HotelId);
+    console.log(hotelData.dataValues);
+    const { mainImage, name } = hotelData.dataValues;
+    const newBooking = await models.Booking.create({ ...body, mainImage, hotelName: name });
     const {
       id, checkIn, checkOut, nights, pricePerNight,
     } = newBooking.dataValues;
     const totalPrice = nights * pricePerNight;
     const { email, organization, firstName } = await models.User.findByPk(body.UserId);
-    const { name } = await models.Hotel.findByPk(body.HotelId);
 
     mercadopago.configure({ access_token: config.accessToken });
     const preference = {

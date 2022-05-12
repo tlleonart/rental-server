@@ -32,7 +32,19 @@ const BookingSchema = {
   },
   initPointMP: {
     type: DataTypes.STRING,
-    allowNull: true,
+  },
+  paidOut: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  mainImage: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  hotelName: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   isCancelled: {
     type: DataTypes.BOOLEAN,

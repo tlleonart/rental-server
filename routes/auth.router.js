@@ -26,9 +26,15 @@ router.get('/google', passport.authenticate('google', { scope: ['email', 'profil
 
 router.get(
   '/google/callback',
-  passport.authenticate('google'),
+  passport.authenticate('google', { session: false }),
   async (req, res, next) => {
-    res.send('Login Success');
+    try {
+      const { user } = req;
+
+      res.json(service.signToken(user));
+    } catch (error) {
+      next(error);
+    }
   },
 );
 
