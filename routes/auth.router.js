@@ -31,7 +31,7 @@ router.get(
     try {
       const { user } = req;
 
-      res.json(service.signToken(user)).redirect('https://rental-app-client.netlify.app/login');
+      res.json(service.signToken(user));
     } catch (error) {
       next(error);
     }
