@@ -82,6 +82,14 @@ class HotelService {
           };
           return CityId;
         }
+        if (p[0] === 'id') {
+          const id = {
+            [p[0]]: {
+              [Op.eq]: p[1],
+            },
+          };
+          return id;
+        }
         if (p[0] === 'price') {
           const price = {
             [p[0]]: {
