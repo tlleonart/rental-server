@@ -1,5 +1,8 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
+const BookingsService = require('./booking.service');
+
+const bookingService = new BookingsService();
 
 class BillingService {
   constructor() {}
@@ -39,7 +42,9 @@ class BillingService {
     const newBilling = await models.Billing.create({
       UserId, HotelId, BookingId, otherCharges, total,
     });
-
+    if (newBilling) {
+      await bookingService.update(BookingId, { paidOut: true });
+    }
     return newBilling;
   }
 

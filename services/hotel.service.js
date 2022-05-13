@@ -2,6 +2,9 @@ const boom = require('@hapi/boom');
 const { Op } = require('sequelize');
 const { models } = require('../libs/sequelize');
 const { hotels } = require('../api/api.json');
+const UserService = require('./user.service');
+
+const userService = new UserService();
 
 class HotelService {
   constructor() {}
@@ -111,6 +114,9 @@ class HotelService {
   async create(body) {
     const newHotel = await models.Hotel.create(body);
 
+    if (newHotel) {
+      await userService.update(newHotel.UserId, { role: 'owner' });
+    }
     return newHotel;
   }
 

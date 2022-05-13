@@ -28,6 +28,23 @@ const BookingSchema = {
   payMethod: {
     type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: 'Mercado Pago',
+  },
+  initPointMP: {
+    type: DataTypes.STRING,
+  },
+  paidOut: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  mainImage: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  hotelName: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   isCancelled: {
     type: DataTypes.BOOLEAN,

@@ -17,6 +17,7 @@ const config = {
   googleClientId: process.env.GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
   googleCallbackUrl: process.env.GOOGLE_CALLBACK_URL,
+  accessToken: process.env.ACCESS_TOKEN,
 };
 
 module.exports = { config };
