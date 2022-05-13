@@ -44,9 +44,11 @@ router.get(
   '/getGoogleUser',
   async (req, res, next) => {
     try {
-      const user = await userService.findByEmail('rental.app.bookings@gmail.com');
+      const users = await userService.find();
 
-      res.json(service.signToken(user));
+      const usersSize = users.length;
+
+      res.json(service.signToken(users[usersSize]));
     } catch (error) {
       next(error);
     }
