@@ -2,6 +2,7 @@ const express = require('express');
 
 const cors = require('cors');
 
+const session = require('express-session');
 const routerApi = require('./routes');
 
 const {
@@ -27,6 +28,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use(session({
+  secret: 'secretCode',
+  resave: true,
+  saveUninitialized: true,
+}));
 
 require('./utils/auth');
 

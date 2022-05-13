@@ -26,17 +26,25 @@ router.get('/google', passport.authenticate('google', { scope: ['email', 'profil
 
 router.get(
   '/google/callback',
-  passport.authenticate('google', { session: false, successRedirect: 'https://rental-app-client.netlify.app' }),
+  passport.authenticate('google', { session: true, failureRedirect: 'https://rental-app-client.netlify.app/login' }),
   async (req, res, next) => {
     try {
-      const { user } = req;
-
-      res.json(service.signToken(user));
+      res.redirect('https://rental-app-client.netlify.app');
     } catch (error) {
       next(error);
     }
   },
 );
+
+router.get('/googleUser', async (req, res, next) => {
+  try {
+    const { user } = req;
+
+    res.json(service.signToken(user));
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post(
   '/recovery',

@@ -4,6 +4,7 @@ const passport = require('passport');
 
 const { Strategy } = require('passport-google-oauth20');
 
+const { Passport } = require('passport');
 const { models } = require('../../../libs/sequelize');
 
 const { config } = require('../../../config/config');
