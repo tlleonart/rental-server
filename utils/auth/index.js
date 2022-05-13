@@ -11,7 +11,3 @@ passport.use(LocalStrategy);
 passport.use(JwtStrategy);
 
 passport.use(GoogleStrategy);
-
-passport.initialize();
-
-passport.session();
