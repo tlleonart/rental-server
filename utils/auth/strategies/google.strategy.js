@@ -22,6 +22,7 @@ const GoogleStrategy = new Strategy(
     const googleUser = profile._json;
 
     let user = {};
+
     try {
       const dbUser = await models.User.findOne({ where: { email: googleUser.email } });
 
