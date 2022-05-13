@@ -4,9 +4,13 @@ const passport = require('passport');
 
 const AuthService = require('../services/auth.service');
 
-const router = express.Router();
-
 const service = new AuthService();
+
+const UserService = require('../services/user.service');
+
+const userService = new UserService();
+
+const router = express.Router();
 
 router.post(
   '/login',
@@ -32,6 +36,21 @@ router.get(
       const { user } = req;
 
       res.json(service.signToken(user));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.get(
+  '/getGoogleUser',
+  async (req, res, next) => {
+    try {
+      const user = await userService.find();
+
+      const userLength = user.length;
+
+      res.json(user[userLength - 1]);
     } catch (error) {
       next(error);
     }
