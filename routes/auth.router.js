@@ -33,9 +33,7 @@ router.get(
   passport.authenticate('google', { session: false }),
   async (req, res, next) => {
     try {
-      const { user } = req;
-
-      res.json(service.signToken(user));
+      res.redirect('http://localhost:3000');
     } catch (error) {
       next(error);
     }
@@ -46,11 +44,9 @@ router.get(
   '/getGoogleUser',
   async (req, res, next) => {
     try {
-      const user = await userService.find();
+      const user = await userService.findByEmail('rental.app.bookings@gmail.com');
 
-      const userLength = user.length;
-
-      res.json(service.signToken(user[userLength - 1]));
+      res.json(service.signToken(user));
     } catch (error) {
       next(error);
     }
