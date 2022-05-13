@@ -48,7 +48,7 @@ router.get(
 
       const usersSize = users.length;
 
-      res.json(service.signToken(users[usersSize]));
+      res.json(service.signToken(users[usersSize - 1]));
     } catch (error) {
       next(error);
     }
