@@ -39,7 +39,7 @@ router.get(
 
       req.session.user = user.email;
 
-      res.redirect('https://rental-app-client.netlify.app');
+      res.json(req.session.user);
     } catch (error) {
       next(error);
     }
