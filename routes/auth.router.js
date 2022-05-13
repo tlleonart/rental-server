@@ -50,7 +50,7 @@ router.get(
 
       const userLength = user.length;
 
-      res.json(user[userLength - 1]);
+      res.json(service.signToken(user[userLength - 1]));
     } catch (error) {
       next(error);
     }
