@@ -26,7 +26,7 @@ router.get('/google', passport.authenticate('google', { scope: ['email', 'profil
 
 router.get(
   '/google/callback',
-  passport.authenticate('google', { session: false, successRedirect: 'https://rental-app-client.netlify.app/profile' }),
+  passport.authenticate('google', { session: false }),
   async (req, res, next) => {
     try {
       const { user } = req;
