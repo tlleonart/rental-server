@@ -8,6 +8,10 @@ const { models } = require('../../../libs/sequelize');
 
 const { config } = require('../../../config/config');
 
+const UserService = require('../../../services/user.service');
+
+const service = new UserService();
+
 const GoogleStrategy = new Strategy(
   {
     clientID: config.googleClientId,
@@ -31,7 +35,7 @@ const GoogleStrategy = new Strategy(
           password: googleUser.sub,
           repeatPass: googleUser.sub,
         };
-        user = await models.User.create(user);
+        user = await service.create(user);
       } else {
         user = dbUser;
       }
