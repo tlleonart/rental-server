@@ -4,7 +4,6 @@ const { OAuth2Client } = require('google-auth-library');
 
 const passport = require('passport');
 
-const { where } = require('sequelize/types');
 const AuthService = require('../services/auth.service');
 
 const { models } = require('../libs/sequelize');
@@ -12,8 +11,6 @@ const { models } = require('../libs/sequelize');
 const router = express.Router();
 
 const service = new AuthService();
-
-s;
 
 const keys = {
   clientId: '673120548612-hukb89n0hg4lhlpr3jkjf1g2l2cb2j3n.apps.googleusercontent.com',
