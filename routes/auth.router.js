@@ -33,7 +33,7 @@ router.get(
   passport.authenticate('google', { session: false }),
   async (req, res, next) => {
     try {
-      res.redirect('http://localhost:3000');
+      res.redirect('https://rental-app-client.netlify.app');
     } catch (error) {
       next(error);
     }
