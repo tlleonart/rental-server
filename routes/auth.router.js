@@ -2,6 +2,8 @@ const express = require('express');
 
 const passport = require('passport');
 
+const session = require('express-session');
+
 const AuthService = require('../services/auth.service');
 
 const service = new AuthService();
@@ -30,9 +32,13 @@ router.get('/google', passport.authenticate('google', { scope: ['email', 'profil
 
 router.get(
   '/google/callback',
-  passport.authenticate('google', { session: false }),
+  passport.authenticate('google', { session: true }),
   async (req, res, next) => {
     try {
+      const { user } = req;
+
+      req.session.user = user.email;
+
       res.redirect('https://rental-app-client.netlify.app');
     } catch (error) {
       next(error);
@@ -44,11 +50,11 @@ router.get(
   '/getGoogleUser',
   async (req, res, next) => {
     try {
-      const users = await userService.find();
+      const email = req.session.user;
 
-      const usersSize = users.length;
+      const user = await userService.findByEmail(email);
 
-      res.json(service.signToken(users[usersSize - 1]));
+      res.json(service.signToken(user));
     } catch (error) {
       next(error);
     }

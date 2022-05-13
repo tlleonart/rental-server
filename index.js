@@ -1,5 +1,9 @@
 const express = require('express');
 
+const session = require('express-session');
+
+const passport = require('passport');
+
 const cors = require('cors');
 
 const routerApi = require('./routes');
@@ -27,6 +31,16 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use(session({
+  resave: true,
+  secret: 'rentalApp',
+  saveUninitialized: true,
+}));
+
+app.use(passport.initialize());
+
+app.use(passport.session());
 
 require('./utils/auth');
 
