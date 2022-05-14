@@ -104,7 +104,7 @@ const HotelSchema = {
   isBanned: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false,
+    defaultValue: true,
   },
   isDeleted: {
     allowNull: false,
