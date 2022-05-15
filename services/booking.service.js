@@ -34,7 +34,11 @@ class BookingService {
     const hotelData = await models.Hotel.findByPk(body.HotelId);
     const { mainImage, name, price } = hotelData.dataValues;
     const newBooking = await models.Booking.create({
-      ...body, mainImage, hotelName: name, pricePerNight: price,
+      ...body,
+      mainImage,
+      hotelName: name,
+      pricePerNight: price,
+      nights: body.checkOut.slice(0, 2) - body.checkIn.slice(0, 2),
     });
     const {
       id, checkIn, checkOut, nights, pricePerNight,
@@ -89,13 +93,15 @@ class BookingService {
     const mail = {
       from: 'bookings@rental.com',
       to: `${email}`,
-      subject: `Felicitaciones ${organization || firstName}, tu reserva esta confirmada!`,
-      html: `<h4>Hola ${organization || firstName}, tu reserva en ${name} está confirmada.</h4>
-      <p>Check In: ${checkIn}</p>
-      <p>Check Out: ${checkOut}</p>
+      subject: `Felicitaciones ${organization || firstName}, tu pre-reserva esta generada!`,
+      html: `<h4>Hola ${organization || firstName}, tienes una pre-reserva en ${name} en espera de confirmación</h4>
+      <p>Ingresa a este <a href=${payment.body.init_point}>link</a> para realizar el pago y finalizar la reserva</p>
+      <p>Estas son las fechas elegidas:</p>
+      <p>Check In: ${checkIn} a las 13 hs. hora local</p>
+      <p>Check Out: ${checkOut} a las 10 hs. hora local</p>
+      <p>Monto a pagar: ${totalPrice}</p>
       <p>Muchas gracias!</p>
-      <a href=${payment.body.init_point}>Paga desde aquí</a>
-      <a href='https://rental-app-client.netlify.app/profile'>Ir a tus reservas</a>`,
+      <a href='https://rental-app-client.netlify.app/profile'>Ir a tu perfil en Rental App para ver tus reservas</a>`,
     };
 
     await this.sendMail(mail);
