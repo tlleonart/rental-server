@@ -32,8 +32,10 @@ class BookingService {
   async create(body) {
     const { email, organization, firstName } = await models.User.findByPk(body.UserId);
     const hotelData = await models.Hotel.findByPk(body.HotelId);
-    const { mainImage, name } = hotelData.dataValues;
-    const newBooking = await models.Booking.create({ ...body, mainImage, hotelName: name });
+    const { mainImage, name, price } = hotelData.dataValues;
+    const newBooking = await models.Booking.create({
+      ...body, mainImage, hotelName: name, pricePerNight: price,
+    });
     const {
       id, checkIn, checkOut, nights, pricePerNight,
     } = newBooking.dataValues;

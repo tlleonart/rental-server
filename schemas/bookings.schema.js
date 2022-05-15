@@ -22,7 +22,7 @@ const createBookingSchema = Joi.object({
   checkIn: checkIn.required(),
   checkOut: checkOut.required(),
   nights: nights.required(),
-  pricePerNight: pricePerNight.required(),
+  pricePerNight,
   payMethod,
   initPointMP,
   UserId: UserId.required(),
