@@ -30,6 +30,7 @@ class BookingService {
   }
 
   async create(body) {
+    const { email, organization, firstName } = await models.User.findByPk(body.UserId);
     const hotelData = await models.Hotel.findByPk(body.HotelId);
     const { mainImage, name } = hotelData.dataValues;
     const newBooking = await models.Booking.create({ ...body, mainImage, hotelName: name });
@@ -37,7 +38,10 @@ class BookingService {
       id, checkIn, checkOut, nights, pricePerNight,
     } = newBooking.dataValues;
     const totalPrice = nights * pricePerNight;
-    const { email, organization, firstName } = await models.User.findByPk(body.UserId);
+    const setExpDateFrom = new Date(new Date().setHours(new Date().getHours() - 3)).toJSON();
+    const expDateFrom = `${setExpDateFrom.slice(0, 23)}-03:00`;
+    const setExpDateTo = new Date(new Date().setHours(new Date().getHours() + 1)).toJSON();
+    const expDateTo = `${setExpDateTo.slice(0, 23)}-03:00`;
 
     mercadopago.configure({ access_token: config.accessToken });
     const preference = {
@@ -49,9 +53,34 @@ class BookingService {
           unit_price: totalPrice,
         },
       ],
+      back_urls: {
+        success: 'https://rental-app-client.netlify.app',
+        failure: 'https://rental-app-client.netlify.app/profile',
+        pending: 'https://rental-app-client.netlify.app/profile',
+      },
+      auto_return: 'approved',
+      payment_methods: {
+        // excluded_payment_methods: [
+        //   {
+        //     id: 'master',
+        //   },
+        // ],
+        excluded_payment_types: [
+          {
+            id: 'ticket',
+          },
+        ],
+        installments: 1,
+      },
+      statement_descriptor: 'RENTALAPP',
+      external_reference: 'Rental_Bookings',
+      expires: true,
+      expiration_date_from: expDateFrom,
+      expiration_date_to: expDateTo,
     };
 
     const payment = await mercadopago.preferences.create(preference);
+    // console.log(payment);
     const { init_point } = payment.body;
     const booking = await this.update(id, { initPointMP: init_point });
 

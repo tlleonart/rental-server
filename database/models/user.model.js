@@ -59,7 +59,7 @@ const UserSchema = {
   isSubscribed: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: true,
+    defaultValue: false,
   },
   isBanned: {
     allowNull: false,
