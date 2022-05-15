@@ -9,7 +9,7 @@ const SuscriptorSchema = {
     autoIncrement: true,
     type: DataTypes.INTEGER,
   },
-  mail: {
+  email: {
     type: DataTypes.STRING,
     allowNull: false,
   },
