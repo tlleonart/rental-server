@@ -28,6 +28,7 @@ const createUserSchema = Joi.object({
   repeatPass,
   isSubscribed,
   image,
+  role,
   hotels,
 });
 

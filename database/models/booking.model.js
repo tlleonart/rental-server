@@ -10,11 +10,11 @@ const BookingSchema = {
     type: DataTypes.INTEGER,
   },
   checkIn: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   checkOut: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   nights: {
