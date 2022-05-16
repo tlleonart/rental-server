@@ -67,8 +67,8 @@ class UserService {
     const mail = {
       from: 'rental@rental.com',
       to: `${newUser.email}`,
-      subject: `Bienvenido a Rental App ${newUser.organization ? newUser.organization : newUser.firstName}!`,
-      html: `<h4>Hola ${newUser.organization ? newUser.organization : newUser.firstName}, te damos la bienvenida a la red más amplia de alojamientos de la región.</h4>
+      subject: `Bienvenido a Rental App ${newUser.organization || newUser.firstName}!`,
+      html: `<h4>Hola ${newUser.organization || newUser.firstName}, te damos la bienvenida a la red más amplia de alojamientos de la región.</h4>
       <p>En Rental encontrarás una variada gama de hospedajes para que tu viaje sea una experiencia única.</p>
       <p>Te esperamos en tu próxima reserva!</p>
       <a href='https://rental-app-client.netlify.app/'>Ir a Rental-App</a>`,

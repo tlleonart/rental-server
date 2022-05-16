@@ -1,6 +1,8 @@
 const boom = require('@hapi/boom');
+const nodemailer = require('nodemailer');
 const { models } = require('../libs/sequelize');
 const BookingsService = require('./booking.service');
+const { config } = require('../config/config');
 
 const bookingService = new BookingsService();
 
@@ -45,6 +47,15 @@ class BillingService {
     if (newBilling) {
       await bookingService.update(BookingId, { paidOut: true });
     }
+    const mail = {
+      from: 'rental@rental.com',
+      to: 'user@mail.com',
+      subject: 'Tu reserva está confirmada!',
+      html: `<h4>Hola ......, tu reserca en .... está confirmada.</h4>
+      <p>Puedes ver los detalles <a href='https://rental-app-client.netlify.app/profile'>aquí</a>.</p>
+      <p>Te esperamos en tu próxima reserva!</p>`,
+    };
+    await this.sendMail(mail);
     return newBilling;
   }
 
@@ -62,6 +73,21 @@ class BillingService {
     const updatedBilling = await billing.update({ total, otherCharges });
 
     return updatedBilling;
+  }
+
+  async sendMail(infoMail) {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.mailtrap.io',
+      port: 2525,
+      auth: {
+        user: config.smtpEmail,
+        pass: config.smtpPassword,
+      },
+    });
+
+    await transporter.sendMail(infoMail);
+
+    return { message: 'Booking Confirmation Mail Sent' };
   }
 }
 
