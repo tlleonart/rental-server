@@ -47,13 +47,19 @@ class BillingService {
     if (newBilling) {
       await bookingService.update(BookingId, { paidOut: true });
     }
+    const data = await this.findById(newBilling.dataValues.id);
+
     const mail = {
-      from: 'rental@rental.com',
-      to: 'user@mail.com',
+      from: 'bookings@rental.com',
+      to: data.User.email,
       subject: 'Tu reserva está confirmada!',
-      html: `<h4>Hola ......, tu reserca en .... está confirmada.</h4>
-      <p>Puedes ver los detalles <a href='https://rental-app-client.netlify.app/profile'>aquí</a>.</p>
-      <p>Te esperamos en tu próxima reserva!</p>`,
+      html: `<h4>Hola ${data.User.organization || data.User.firstName}, tu reserva en ${data.Hotel.name} está confirmada!</h4>
+      <p>Imprime este voucher y presentalo al anfitrión.</p><br/>
+      <p>Check In: ${data.Booking.checkIn} a las 13 hora local</p>
+      <p>Check Out: ${data.Booking.checkOut} a las 10 hora local</p>
+      <p>Monto pagado: ARS ${data.total}</p><br/>
+      <p>Muchas gracias!</p>
+      <p>Te esperamos en tu próxima reserva, el equipo de <a href='https://rental-app-client.netlify.app'>Rental App</a></p>`,
     };
     await this.sendMail(mail);
     return newBilling;

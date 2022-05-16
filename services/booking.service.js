@@ -97,9 +97,9 @@ class BookingService {
       html: `<h4>Hola ${organization || firstName}, tienes una pre-reserva en ${name} en espera de confirmación</h4>
       <p>Ingresa a este <a href=${payment.body.init_point}>link</a> para realizar el pago y finalizar la reserva</p>
       <p>Estas son las fechas elegidas:</p>
-      <p>Check In: ${checkIn} a las 13 hs. hora local</p>
-      <p>Check Out: ${checkOut} a las 10 hs. hora local</p>
-      <p>Monto a pagar: ${totalPrice}</p>
+      <p>Check In: ${checkIn} a las 13 hora local</p>
+      <p>Check Out: ${checkOut} a las 10 hora local</p>
+      <p>Monto a pagar: ARS ${totalPrice}</p>
       <p>Muchas gracias!</p>
       <a href='https://rental-app-client.netlify.app/profile'>Ir a tu perfil en Rental App para ver tus reservas</a>`,
     };
