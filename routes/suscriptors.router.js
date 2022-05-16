@@ -63,4 +63,17 @@ router.post(
   },
 );
 
+router.post (
+  '/sendMails',
+  async (req, res, next) => {
+    try {
+      await service.sendMonthlyMails ()
+
+      res.json ({message: 'All Monthly Mails Sent!'})
+    } catch (error) {
+      next (error)
+    }
+  }
+)
+
 module.exports = router;

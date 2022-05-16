@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const id = Joi.number();
-const mail = Joi.string();
+const email = Joi.string();
 const isSuscribed = Joi.boolean();
 
 const getSuscriptorSchema = Joi.object({
@@ -9,11 +9,11 @@ const getSuscriptorSchema = Joi.object({
 });
 
 const createSuscriptorSchema = Joi.object({
-  mail: mail.required(),
+  email: email.required(),
 });
 
 const updateSuscriptorSchema = Joi.object({
-  mail,
+  email,
   isSuscribed,
 });
 
