@@ -1,22 +1,13 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
-const { suscriptors } = require('../api/api.json');
 const nodemailer = require ('nodemailer');
 const { config } = require ('../config/config');
 
 class SuscriptorService {
   constructor() {}
 
-  async dbLoadSuscriptors() {
-    suscriptors.map((s) => this.create(s));
-  }
-
   async find() {
     const allSuscriptors = await models.Suscriptor.findAll();
-
-    if (allSuscriptors.length === 0) {
-      await this.dbLoadSuscriptors();
-    }
 
     return allSuscriptors;
   }
@@ -87,7 +78,7 @@ class SuscriptorService {
   async getAllSuscriptors () {
     const users = await models.User.findAll ({
       where: {
-        isSuscribed: true
+        isSubscribed: true
       }
     })
     const suscriptors = await models.Suscriptor.findAll ({
@@ -101,30 +92,19 @@ class SuscriptorService {
   }
 
   async sendMonthlyMails () {
-    const transporter = nodemailer.createTransport ({
-      host: 'smtp.mailtrap.io',
-      port: 2525,
-      auth: {
-        user: config.smtpEmail,
-        pass: config.smtpPassword
-      }
-    })
-
     const recipients = await this.getAllSuscriptors ()
-    const emails = recipients.map (r => r.email)
-    // Puede servir un .join (',') despues del .map ()
-
-    await transporter.sendMail ({
-      from: 'rental@rental.com',
-      to: emails,
-      subject: 'Tu Newsletter mensual de parte de Rental App!',
-      html: `<h4>Hola, te dejamos a disposición nuestras últimas novedades y artículos de interés.</h4>
-      <p>En Rental encontrarás una variada gama de hospedajes para que tu viaje sea una experiencia única.</p>
-      <p>Y si dispones de una propiedad para alquiler, no dudes en sumarte para aprovechar nuestra gran red de inquilinos y viajeros!</p>
-      <a href='https://rental-app-client.netlify.app/'>Visita Rental-App y encontra lo que estas buscando!</a>`
-    })
-
-    return {message: 'All Monthly Mails Sent!'}
+    recipients.map (r => r.email).map (suscriptor => {
+      const mail = {
+        from: 'rental@rental.com',
+        to: suscriptor,
+        subject: 'Tu Newsletter mensual de parte de Rental App!',
+        html: `<h4>Hola, te dejamos a disposición nuestras últimas novedades y artículos de interés.</h4>
+        <p>En Rental encontrarás una variada gama de hospedajes para que tu viaje sea una experiencia única.</p>
+        <p>Y si dispones de una propiedad para alquiler, no dudes en sumarte para aprovechar nuestra gran red de inquilinos y viajeros!</p>
+        <a href='https://rental-app-client.netlify.app/'>Visita Rental-App y encontra lo que estas buscando!</a>`
+      }
+      await this.sendMail (mail)
+    })    
   }
 }
 
