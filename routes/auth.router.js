@@ -35,11 +35,12 @@ router.get(
   passport.authenticate('google', { session: true }),
   async (req, res, next) => {
     try {
-      const { user } = req;
+      // const { user } = req;
 
-      req.session.user = user.email;
+      // req.session.user = user.email;
 
-      res.json(req.session.user);
+      // res.json(req.session.user);
+      res.redirect(window.location.origin);
     } catch (error) {
       next(error);
     }
