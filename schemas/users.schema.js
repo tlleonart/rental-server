@@ -12,6 +12,7 @@ const role = Joi.string().valid('admin', 'customer', 'owner');
 const image = Joi.string();
 const hotels = Joi.array().items(Joi.number());
 const isDeleted = Joi.boolean();
+const isSubscribed = Joi.boolean();
 
 const getUserSchema = Joi.object({
   id: id.required(),
@@ -25,7 +26,9 @@ const createUserSchema = Joi.object({
   email: email.required(),
   password: password.required(),
   repeatPass,
+  isSubscribed,
   image,
+  role,
   hotels,
 });
 
@@ -37,6 +40,7 @@ const updateUserSchema = Joi.object({
   email,
   password,
   repeatPass,
+  isSubscribed,
   image,
   role,
   isDeleted,

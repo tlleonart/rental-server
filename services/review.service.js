@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
+const nodemailer = require('nodemailer');
 const { models } = require('../libs/sequelize');
+const { config } = require('../config/config');
 
 class ReviewService {
   constructor() {}
@@ -61,6 +63,41 @@ class ReviewService {
     const deleted = await reviewDeleted.update(body);
 
     return deleted;
+  }
+
+  async sendInvitation(today) {
+    const reviewers = await models.Booking.findAll({
+      where: { checkOut: today },
+      include: [{
+        model: models.User,
+      }],
+    });
+    console.log(reviewers);
+    const mail = {
+      from: 'rental@rental.com',
+      to: 'user@mail.com',
+      subject: 'Cuéntanos sobre tu estadía!',
+      html: `<h4>Hola ......, queremos saber como fue tu experiencia en .....</h4>
+      <p>Cuéntale a la comunidad de Rental App como fue tu experiencia, dejando una breve reseña <a href='https://rental-app-client.netlify.app/profile'>aquí</a>.</p>
+      <p>Te esperamos en tu próxima reserva!</p>`,
+    };
+    await this.sendMail(mail);
+    return reviewers;
+  }
+
+  async sendMail(infoMail) {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.mailtrap.io',
+      port: 2525,
+      auth: {
+        user: config.smtpEmail,
+        pass: config.smtpPassword,
+      },
+    });
+
+    await transporter.sendMail(infoMail);
+
+    return { message: 'Review Invitation Mail Sent' };
   }
 }
 

@@ -20,6 +20,17 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/invitations', async (req, res, next) => {
+  try {
+    const { body } = req;
+    const reviewers = await service.sendInvitation(body.checkOut);
+
+    res.json(reviewers);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get(
   '/:id',
   validatorHandler(getReviewSchema, 'params'),

@@ -30,14 +30,24 @@ class BookingService {
   }
 
   async create(body) {
+    const { email, organization, firstName } = await models.User.findByPk(body.UserId);
     const hotelData = await models.Hotel.findByPk(body.HotelId);
-    const { mainImage, name } = hotelData.dataValues;
-    const newBooking = await models.Booking.create({ ...body, mainImage, hotelName: name });
+    const { mainImage, name, price } = hotelData.dataValues;
+    const newBooking = await models.Booking.create({
+      ...body,
+      mainImage,
+      hotelName: name,
+      pricePerNight: price,
+      nights: body.checkOut.slice(0, 2) - body.checkIn.slice(0, 2),
+    });
     const {
       id, checkIn, checkOut, nights, pricePerNight,
     } = newBooking.dataValues;
     const totalPrice = nights * pricePerNight;
-    const { email, organization, firstName } = await models.User.findByPk(body.UserId);
+    const setExpDateFrom = new Date(new Date().setHours(new Date().getHours() - 3)).toJSON();
+    const expDateFrom = `${setExpDateFrom.slice(0, 23)}-03:00`;
+    const setExpDateTo = new Date(new Date().setHours(new Date().getHours() + 1)).toJSON();
+    const expDateTo = `${setExpDateTo.slice(0, 23)}-03:00`;
 
     mercadopago.configure({ access_token: config.accessToken });
     const preference = {
@@ -49,22 +59,49 @@ class BookingService {
           unit_price: totalPrice,
         },
       ],
+      back_urls: {
+        success: 'https://rental-app-client.netlify.app',
+        failure: 'https://rental-app-client.netlify.app/profile',
+        pending: 'https://rental-app-client.netlify.app/profile',
+      },
+      auto_return: 'approved',
+      payment_methods: {
+        // excluded_payment_methods: [
+        //   {
+        //     id: 'master',
+        //   },
+        // ],
+        excluded_payment_types: [
+          {
+            id: 'ticket',
+          },
+        ],
+        installments: 1,
+      },
+      statement_descriptor: 'RENTALAPP',
+      external_reference: 'Rental_Bookings',
+      expires: true,
+      expiration_date_from: expDateFrom,
+      expiration_date_to: expDateTo,
     };
 
     const payment = await mercadopago.preferences.create(preference);
+    // console.log(payment);
     const { init_point } = payment.body;
     const booking = await this.update(id, { initPointMP: init_point });
 
     const mail = {
       from: 'bookings@rental.com',
       to: `${email}`,
-      subject: `Felicitaciones ${organization || firstName}, tu reserva esta confirmada!`,
-      html: `<h4>Hola ${organization || firstName}, tu reserva en ${name} está confirmada.</h4>
-      <p>Check In: ${checkIn}</p>
-      <p>Check Out: ${checkOut}</p>
+      subject: `Felicitaciones ${organization || firstName}, tu pre-reserva esta generada!`,
+      html: `<h4>Hola ${organization || firstName}, tienes una pre-reserva en ${name} en espera de confirmación</h4>
+      <p>Ingresa a este <a href=${payment.body.init_point}>link</a> para realizar el pago y finalizar la reserva</p>
+      <p>Estas son las fechas elegidas:</p>
+      <p>Check In: ${checkIn} a las 13 hs. hora local</p>
+      <p>Check Out: ${checkOut} a las 10 hs. hora local</p>
+      <p>Monto a pagar: ${totalPrice}</p>
       <p>Muchas gracias!</p>
-      <a href=${payment.body.init_point}>Paga desde aquí</a>
-      <a href='https://rental-app-client.netlify.app/profile'>Ir a tus reservas</a>`,
+      <a href='https://rental-app-client.netlify.app/profile'>Ir a tu perfil en Rental App para ver tus reservas</a>`,
     };
 
     await this.sendMail(mail);
