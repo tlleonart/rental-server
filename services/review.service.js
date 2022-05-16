@@ -67,21 +67,27 @@ class ReviewService {
 
   async sendInvitation(today) {
     const reviewers = await models.Booking.findAll({
-      where: { checkOut: today },
+      where: {
+        checkOut: today,
+        paidOut: true,
+        isCancelled: false,
+      },
       include: [{
         model: models.User,
       }],
     });
-    console.log(reviewers);
-    const mail = {
-      from: 'rental@rental.com',
-      to: 'user@mail.com',
-      subject: 'Cuéntanos sobre tu estadía!',
-      html: `<h4>Hola ......, queremos saber como fue tu experiencia en .....</h4>
-      <p>Cuéntale a la comunidad de Rental App como fue tu experiencia, dejando una breve reseña <a href='https://rental-app-client.netlify.app/profile'>aquí</a>.</p>
-      <p>Te esperamos en tu próxima reserva!</p>`,
-    };
-    await this.sendMail(mail);
+
+    reviewers.map(async (reviewer) => {
+      const mail = {
+        from: 'reviews@rental.com',
+        to: reviewer.User.email,
+        subject: 'Cuéntanos sobre tu estadía!',
+        html: `<h4>Hola ${reviewer.User.organization || reviewer.User.firstName}, queremos saber como fue tu experiencia en ${reviewer.hotelName}.</h4>
+        <p>Cuéntale a la comunidad de Rental App como fue tu experiencia, dejando una breve reseña <a href='https://rental-app-client.netlify.app/profile'>aquí</a>.</p>
+        <p>Te esperamos en tu próxima reserva, el equipo de <a href='https://rental-app-client.netlify.app'>Rental App</a></p>`,
+      };
+      await this.sendMail(mail);
+    });
     return reviewers;
   }
 
