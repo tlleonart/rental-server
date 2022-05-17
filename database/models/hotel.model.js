@@ -47,8 +47,8 @@ const HotelSchema = {
     type: DataTypes.FLOAT,
   },
   guests: {
-    type: DataTypes.INTEGER,
     allowNull: false,
+    type: DataTypes.INTEGER,
   },
   children: {
     allowNull: false,
@@ -64,8 +64,8 @@ const HotelSchema = {
     type: DataTypes.STRING,
   },
   web: {
-    type: DataTypes.STRING,
     allowNull: false,
+    type: DataTypes.STRING,
     defaultValue: "We don't have a website",
   },
   mainImage: {
@@ -102,14 +102,14 @@ const HotelSchema = {
     type: DataTypes.ARRAY(DataTypes.STRING),
   },
   isBanned: {
-    type: DataTypes.BOOLEAN,
     allowNull: false,
+    type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
   isDeleted: {
     allowNull: false,
-    defaultValue: false,
     type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
   createdAt: {
     allowNull: false,

@@ -3,15 +3,20 @@ const nodemailer = require('nodemailer');
 const mercadopago = require('mercadopago');
 const { models } = require('../libs/sequelize');
 const { config } = require('../config/config');
+const { bookings } = require('../api/api.json');
 
 class BookingService {
   constructor() {}
 
+  async dbLoadBookings() {
+    bookings.map((b) => this.create(b));
+  }
+
   async find() {
     const allBookings = await models.Booking.findAll();
 
-    if (!allBookings) {
-      throw boom.notFound('Bookings Not Found');
+    if (allBookings.length === 0) {
+      await this.dbLoadBookings();
     }
 
     return allBookings;
@@ -104,7 +109,7 @@ class BookingService {
       <a href='https://rental-app-client.netlify.app/profile'>Ir a tu perfil en Rental App para ver tus reservas</a>`,
     };
 
-    await this.sendMail(mail);
+    // await this.sendMail(mail);
 
     return booking;
   }
