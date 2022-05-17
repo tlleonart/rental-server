@@ -22,8 +22,8 @@ router.get('/', async (req, res, next) => {
 
 router.get('/invitations', async (req, res, next) => {
   try {
-    const { body } = req;
-    const reviewers = await service.sendInvitation(body.checkOut);
+    const { checkOut } = req.query;
+    const reviewers = await service.sendInvitation(checkOut);
 
     res.json(reviewers);
   } catch (error) {
