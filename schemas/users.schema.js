@@ -10,7 +10,7 @@ const password = Joi.string();
 const repeatPass = Joi.ref('password');
 const role = Joi.string().valid('admin', 'customer', 'owner');
 const image = Joi.string();
-const hotels = Joi.array().items(Joi.number());
+const favHotels = Joi.array().items(Joi.number()).allow(null);
 const isDeleted = Joi.boolean();
 const isSuscribed = Joi.boolean();
 const isBanned = Joi.boolean();
@@ -30,7 +30,7 @@ const createUserSchema = Joi.object({
   isSuscribed,
   image,
   role,
-  hotels,
+  favHotels,
   isDeleted,
   isBanned,
 });
@@ -42,6 +42,7 @@ const updateUserSchema = Joi.object({
   organization,
   email,
   password,
+  favHotels,
   repeatPass,
   isSuscribed,
   image,

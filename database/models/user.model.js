@@ -54,7 +54,8 @@ const UserSchema = {
     defaultValue: 'https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png',
   },
   favHotels: {
-    type: DataTypes.ARRAY(DataTypes.JSON),
+    allowNull: true,
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
   },
   isSuscribed: {
     type: DataTypes.BOOLEAN,
