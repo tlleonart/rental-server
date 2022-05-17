@@ -78,7 +78,7 @@ class SuscriptorService {
   async getAllSuscriptors() {
     const users = await models.User.findAll({
       where: {
-        isSubscribed: true,
+        isSuscribed: true,
       },
     });
     const suscriptors = await models.Suscriptor.findAll({

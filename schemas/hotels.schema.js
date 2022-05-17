@@ -20,6 +20,7 @@ const roomImage = Joi.string();
 const barImage = Joi.string();
 const amenitiesImage = Joi.string();
 const otherImage = Joi.string();
+const isBanned = Joi.boolean();
 const UserId = Joi.number();
 const amenities = Joi.array().items(Joi.string());
 
@@ -47,6 +48,7 @@ const createHotelSchema = Joi.object({
   barImage: barImage.required(),
   amenitiesImage: amenitiesImage.required(),
   otherImage: otherImage.required(),
+  isBanned,
   UserId,
   amenities: amenities.required(),
 });
@@ -71,6 +73,7 @@ const updateHotelSchema = Joi.object({
   barImage,
   amenitiesImage,
   otherImage,
+  isBanned,
   UserId,
   amenities,
 });
