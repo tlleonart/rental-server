@@ -31,6 +31,8 @@ const createUserSchema = Joi.object({
   image,
   role,
   hotels,
+  isDeleted,
+  isBanned,
 });
 
 const updateUserSchema = Joi.object({
