@@ -105,6 +105,12 @@ class UserService {
 
     return { message: 'New User Mail Sent' };
   }
+
+  async deleteUser(id) {
+    const user = await this.findById(id);
+    await user.destroy();
+    return { id };
+  }
 }
 
 module.exports = UserService;
