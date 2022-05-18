@@ -11,12 +11,24 @@ const router = express.Router();
 const service = new UserService();
 
 router.get('/', async (req, res, next) => {
-  try {
-    const users = await service.find();
+  const { email } = req.query;
 
-    res.json(users);
-  } catch (error) {
-    next(error);
+  if (!email) {
+    try {
+      const users = await service.find();
+
+      res.json(users);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    try {
+      const userByEmail = await service.findByEmail(email);
+
+      res.json(userByEmail);
+    } catch (error) {
+      next(error);
+    }
   }
 });
 
