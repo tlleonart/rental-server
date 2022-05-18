@@ -25,13 +25,12 @@ class UserService {
   async findByEmail(email) {
     const user = await models.User.findOne({
       where: { email },
+      include: [{ model: models.Hotel }, { model: models.Booking }],
     });
 
     if (!user) {
       throw boom.notFound('User Not Found');
     }
-
-    console.log(user);
 
     return user;
   }
