@@ -20,10 +20,10 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/cancelOldBookings', async (req, res, next) => {
+router.patch('/cancelOldBookings', async (req, res, next) => {
   try {
-    const yesterday = req.query;
-    const bookings = await service.deleteOldBookings(yesterday);
+    const { checkOut } = req.body;
+    const bookings = await service.deleteOldBookings(checkOut);
 
     res.json(bookings);
   } catch (error) {

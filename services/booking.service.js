@@ -128,13 +128,17 @@ class BookingService {
     return bookingDeleted;
   }
 
-  async deleteOldBookings(yesterday) {
-    const oldBookings = await models.Booking.findAll({
-      where: { createdAt: yesterday },
+  async deleteOldBookings(body) {
+    const toCancel = `${body.slice(6, 10)}/${body.slice(3, 5)}/${body.slice(0, 2)}`;
+    const oldBookings = await models.Booking.findAll();
+
+    oldBookings.map((b) => {
+      const formatedCheckOut = `${b.dataValues.checkOut.slice(6, 10)}/${b.dataValues.checkOut.slice(3, 5)}/${b.dataValues.checkOut.slice(0, 2)}`;
+      if (b.dataValues.paidOut === false && moment(formatedCheckOut) < moment(toCancel)) {
+        this.update(b.dataValues.id, { isCancelled: true });
+      }
     });
-    oldBookings?.map(async (oldBooking) => {
-      await this.update(oldBooking.id, { isCancelled: true });
-    });
+    return oldBookings;
   }
 
   async order({ prop, value }) {
