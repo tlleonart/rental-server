@@ -54,7 +54,7 @@ class BookingService {
     const {
       id, checkIn, checkOut, nights, pricePerNight,
     } = newBooking.dataValues;
-    const totalPrice = nights * pricePerNight;
+    const totalPrice = stay * pricePerNight;
     const setExpDateFrom = new Date(new Date().setHours(new Date().getHours() - 3)).toJSON();
     const expDateFrom = `${setExpDateFrom.slice(0, 23)}-03:00`;
     const setExpDateTo = new Date(new Date().setHours(new Date().getHours() + 1)).toJSON();
