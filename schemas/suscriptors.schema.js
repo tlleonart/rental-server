@@ -10,6 +10,7 @@ const getSuscriptorSchema = Joi.object({
 
 const createSuscriptorSchema = Joi.object({
   email: email.required(),
+  isSuscribed,
 });
 
 const updateSuscriptorSchema = Joi.object({

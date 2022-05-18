@@ -50,6 +50,7 @@ const createHotelSchema = Joi.object({
   amenitiesImage: amenitiesImage.required(),
   otherImage: otherImage.required(),
   isBanned,
+  isDeleted,
   UserId,
   amenities: amenities.required(),
 });
