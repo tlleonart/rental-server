@@ -20,6 +20,17 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/cancelOldBookings', async (req, res, next) => {
+  try {
+    const yesterday = req.query;
+    const bookings = await service.deleteOldBookings(yesterday);
+
+    res.json(bookings);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get(
   '/:id',
   validatorHandler(getBookingSchema, 'params'),

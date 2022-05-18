@@ -1,9 +1,12 @@
 const boom = require('@hapi/boom');
 const nodemailer = require('nodemailer');
 const mercadopago = require('mercadopago');
+const moment = require('moment');
 const { models } = require('../libs/sequelize');
 const { config } = require('../config/config');
 const { bookings } = require('../api/api.json');
+
+moment().format();
 
 class BookingService {
   constructor() {}
@@ -38,12 +41,15 @@ class BookingService {
     const { email, organization, firstName } = await models.User.findByPk(body.UserId);
     const hotelData = await models.Hotel.findByPk(body.HotelId);
     const { mainImage, name, price } = hotelData.dataValues;
+    const bookingFrom = moment(`${body.checkIn.slice(6, 10)}/${body.checkIn.slice(3, 5)}/${body.checkIn.slice(0, 2)}`);
+    const bookingTo = moment(`${body.checkOut.slice(6, 10)}/${body.checkOut.slice(3, 5)}/${body.checkOut.slice(0, 2)}`);
+    const stay = bookingTo.diff(bookingFrom, 'days');
     const newBooking = await models.Booking.create({
       ...body,
       mainImage,
       hotelName: name,
       pricePerNight: price,
-      nights: body.checkOut.slice(0, 2) - body.checkIn.slice(0, 2),
+      nights: stay,
     });
     const {
       id, checkIn, checkOut, nights, pricePerNight,
@@ -120,6 +126,15 @@ class BookingService {
     const bookingDeleted = await booking.update(body);
 
     return bookingDeleted;
+  }
+
+  async deleteOldBookings(yesterday) {
+    const oldBookings = await models.Booking.findAll({
+      where: { createdAt: yesterday },
+    });
+    oldBookings?.map(async (oldBooking) => {
+      await this.update(oldBooking.id, { isCancelled: true });
+    });
   }
 
   async order({ prop, value }) {
