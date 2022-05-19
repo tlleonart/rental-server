@@ -129,14 +129,19 @@ class BookingService {
   }
 
   async deleteOldBookings(body) {
-    const toCancel = `${body.slice(6, 10)}/${body.slice(3, 5)}/${body.slice(0, 2)}`;
+    const today = `${body.slice(6, 10)}/${body.slice(3, 5)}/${body.slice(0, 2)}`;
     const oldBookings = await models.Booking.findAll();
 
     oldBookings.map((b) => {
-      const formatedCheckOut = `${b.dataValues.checkOut.slice(6, 10)}/${b.dataValues.checkOut.slice(3, 5)}/${b.dataValues.checkOut.slice(0, 2)}`;
-      if (b.dataValues.paidOut === false && moment(formatedCheckOut) < moment(toCancel)) {
-        this.update(b.dataValues.id, { isCancelled: true });
+      const formatedCreatedAt = b.dataValues.createdAt;
+      if (b.dataValues.paidOut === false && moment(formatedCreatedAt) < moment(today)) {
+        if (b.dataValues.isCancelled === false) {
+          this.update(b.dataValues.id, { isCancelled: true });
+          console.log({ message: `La reserva ${b.dataValues.id} fue anulada por falta de pago` });
+        }
       }
+      console.log({ message: `El estado de la reserva ${b.dataValues.id} es correcto` });
+      return { message: `El estado de la reserva ${b.dataValues.id} es correcto` };
     });
     return oldBookings;
   }

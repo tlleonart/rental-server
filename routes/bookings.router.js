@@ -22,10 +22,10 @@ router.get('/', async (req, res, next) => {
 
 router.patch('/cancelOldBookings', async (req, res, next) => {
   try {
-    const { checkOut } = req.body;
-    const bookings = await service.deleteOldBookings(checkOut);
+    const { today } = req.body;
+    await service.deleteOldBookings(today);
 
-    res.json(bookings);
+    res.json({ message: `Las reservas con fecha anterior a ${today} en estado pendiente de pago fueron anuladas` });
   } catch (error) {
     next(error);
   }
